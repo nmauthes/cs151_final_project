@@ -10,7 +10,10 @@ public class Account {
 	public int getID() { return id; }
 	public String getName() { return name; }
 	
-	// TODO constructor
+	public Account(String name, int id) {
+		setName(name);
+		setID(id);
+	}
 	
 	public void addReservation(Reservation r) {
 		reservations.add(r);
