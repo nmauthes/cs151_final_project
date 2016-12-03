@@ -11,7 +11,8 @@ public class GuestView extends JFrame {
 	private ReservationSystem model;
 	private Account activeAccount;
 	
-	//private JTextArea roomViewArea;
+	private JTabbedPane guestTabs;
+	private JPanel reservationPanel, viewCancelPanel;
 
 	public GuestView(ReservationSystem model) {
 		this.model = model;
@@ -20,6 +21,16 @@ public class GuestView extends JFrame {
 		setLayout(new FlowLayout());
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
+		
+		guestTabs = new JTabbedPane();
+		
+		reservationPanel = new JPanel(new BorderLayout());
+		viewCancelPanel = new JPanel(new BorderLayout());
+		
+		guestTabs.addTab("New reservation", reservationPanel);
+		guestTabs.addTab("View/Cancel", viewCancelPanel);
+		
+		add(guestTabs);
 		
 		setLocationRelativeTo(null);
 		//setVisible(true);

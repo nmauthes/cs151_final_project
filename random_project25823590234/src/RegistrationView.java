@@ -41,10 +41,10 @@ public class RegistrationView extends JFrame {
 				String[] buttons = { "Sign in", "Sign up" };
 				int choice = JOptionPane.showOptionDialog(RegistrationView.this, fields, "Guest login", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
 				
-//				if(choice == JOptionPane.YES_OPTION)
-//					// Sign in existing user
+//				if(choice == 0)
+//					System.out.println("Option 1");
 //				else
-//					// Create new user
+//					System.out.println("Option 2");
 				
 				g.setVisible(true);
 				m.dispose();

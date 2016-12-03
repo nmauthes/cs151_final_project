@@ -16,10 +16,11 @@ public class ManagerView extends JFrame {
 
 	private ReservationSystem model;
 	
+	private JTabbedPane managerTabs;
 	private JLabel monthAndYearLabel;
 	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton;
 	private JScrollPane calendarScrollPane;
-	private JPanel calendarPanel, calendarButtonPanel;
+	private JPanel calendarPanel, calendarButtonPanel, roomsPanel;
 	private DefaultTableModel dtm;
 	private JTable calendarTable;
 	
@@ -42,14 +43,20 @@ public class ManagerView extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
 		
+		managerTabs = new JTabbedPane();
+		
+		roomsPanel = new JPanel(new BorderLayout());
 		calendarPanel = new JPanel(new BorderLayout());
-		add(calendarPanel);
 		
 		monthAndYearLabel = new JLabel();
 		updateLabels();
 		
 		buildTableModel();
 		buildCalendarPanel();
+		
+		managerTabs.addTab("Calendar", calendarPanel);
+		managerTabs.addTab("Rooms", roomsPanel);
+		add(managerTabs);
 		
 		setLocationRelativeTo(null);
 		//setVisible(true);
