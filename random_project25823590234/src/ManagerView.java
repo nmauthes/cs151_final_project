@@ -58,6 +58,9 @@ public class ManagerView extends JFrame {
 	private void buildCalendarPanel() {
 		prevMonthButton = new JButton("<<");
 		nextMonthButton = new JButton(">>");
+		prevYearButton = new JButton("<");
+		nextYearButton = new JButton(">");
+		
 		prevMonthButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.previousMonth();
@@ -68,6 +71,16 @@ public class ManagerView extends JFrame {
 				model.nextMonth();
 			}
 		});
+		prevYearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.previousYear();
+			}
+		});
+		nextYearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.nextYear();
+			}
+		});
 		
 		calendarPanel.add(monthAndYearLabel, BorderLayout.NORTH);
 		
@@ -75,8 +88,10 @@ public class ManagerView extends JFrame {
 		calendarPanel.add(calendarScrollPane, BorderLayout.CENTER);
 		
 		calendarButtonPanel = new JPanel();
+		calendarButtonPanel.add(prevYearButton);
 		calendarButtonPanel.add(prevMonthButton);
 		calendarButtonPanel.add(nextMonthButton);
+		calendarButtonPanel.add(nextYearButton);
 		calendarPanel.add(calendarButtonPanel, BorderLayout.SOUTH);
 	}
 	

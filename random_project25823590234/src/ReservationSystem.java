@@ -79,6 +79,18 @@ public class ReservationSystem { // model
 		changeMade();
 	}
 	
+	public void nextYear() {
+		calendar.add(Calendar.YEAR, 1);
+		selectedDate = calendar.getTime();
+		changeMade();
+	}
+	
+	public void previousYear() {
+		calendar.add(Calendar.YEAR, -1);
+		selectedDate = calendar.getTime();
+		changeMade();
+	}
+	
 	private void changeMade() {
 		ChangeEvent e = new ChangeEvent(this);
 		

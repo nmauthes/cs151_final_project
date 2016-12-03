@@ -37,8 +37,6 @@ public class RegistrationView extends JFrame {
 		
 		guestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				g.setVisible(true);
-				
 				Object[] fields = { signupLabel, signupField };
 				String[] buttons = { "Sign in", "Sign up" };
 				int choice = JOptionPane.showOptionDialog(RegistrationView.this, fields, "Guest login", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
@@ -48,6 +46,7 @@ public class RegistrationView extends JFrame {
 //				else
 //					// Create new user
 				
+				g.setVisible(true);
 				m.dispose();
 			}
 		});
