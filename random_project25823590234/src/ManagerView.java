@@ -60,12 +60,12 @@ public class ManagerView extends JFrame {
 		nextMonthButton = new JButton(">>");
 		prevMonthButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.getCalendar().previousMonth();
+				model.previousMonth();
 			}
 		});
 		nextMonthButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.getCalendar().nextMonth();
+				model.nextMonth();
 			}
 		});
 		
@@ -87,7 +87,7 @@ public class ManagerView extends JFrame {
 				selectedColumn = calendarTable.getSelectedColumn();
 				
 				int day = (int) calendarTable.getValueAt(selectedRow, selectedColumn);
-				model.getCalendar().goToDate(model.getCalendar().model.get(Calendar.MONTH), day, model.getCalendar().model.get(Calendar.YEAR));
+				model.goToDate(model.getCalendar().get(Calendar.MONTH), day, model.getCalendar().get(Calendar.YEAR));
 			}
 		};
 		
@@ -106,8 +106,8 @@ public class ManagerView extends JFrame {
 	private Integer[][] buildMonthArray() {
 		Integer[][] temp = new Integer[WEEKS_PER_MONTH][DAYS_PER_WEEK];
 		
-		int month = model.getCalendar().model.get(Calendar.MONTH);
-		int year = model.getCalendar().model.get(Calendar.YEAR);
+		int month = model.getCalendar().get(Calendar.MONTH);
+		int year = model.getCalendar().get(Calendar.YEAR);
 		Calendar tempCal = Calendar.getInstance();
 		tempCal.set(year, month, 1);
 		
@@ -119,7 +119,7 @@ public class ManagerView extends JFrame {
 				if((i != 0 || j >= firstDay) && (day <= tempCal.getActualMaximum(Calendar.DAY_OF_MONTH)))
 					temp[i][j] = day++;
 					
-				if(day == model.getCalendar().model.get(Calendar.DAY_OF_MONTH) + 1) {
+				if(day == model.getCalendar().get(Calendar.DAY_OF_MONTH) + 1) {
 					selectedRow = i;
 					selectedColumn = j;
 				}
@@ -129,7 +129,7 @@ public class ManagerView extends JFrame {
 	}
 	
 	private void updateLabels() {
-		monthAndYearLabel.setText(MONTHS[model.getCalendar().model.get(Calendar.MONTH)] + " " + model.getCalendar().model.get(Calendar.YEAR));
+		monthAndYearLabel.setText(MONTHS[model.getCalendar().get(Calendar.MONTH)] + " " + model.getCalendar().get(Calendar.YEAR));
 	}
 	
 	private void updateTableModel() {
@@ -144,7 +144,7 @@ public class ManagerView extends JFrame {
 			for(int j = 0; j < dtm.getColumnCount(); j++) {
 				Integer val = (Integer) dtm.getValueAt(i, j);
 				
-				if(val != null && val == model.getCalendar().model.get(Calendar.DAY_OF_MONTH))
+				if(val != null && val == model.getCalendar().get(Calendar.DAY_OF_MONTH))
 					calendarTable.changeSelection(i, j, false, false);
 			}
 		}
