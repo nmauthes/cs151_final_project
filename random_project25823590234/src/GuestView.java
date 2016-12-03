@@ -11,7 +11,7 @@ public class GuestView extends JFrame {
 	private ReservationSystem model;
 	private Account activeAccount;
 	
-	private JTextArea roomViewArea;
+	//private JTextArea roomViewArea;
 
 	public GuestView(ReservationSystem model) {
 		this.model = model;

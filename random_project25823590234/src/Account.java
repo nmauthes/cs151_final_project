@@ -5,14 +5,17 @@ public class Account {
 	private String name;
 	private ArrayList<Reservation> reservations;
 	
-	public void setID(int id) { this.id = id; }
+	//public void setID(int id) { this.id = id; }
 	public void setName(String name) { this.name = name; }
 	public int getID() { return id; }
 	public String getName() { return name; }
 	
-	public Account(String name, int id) {
+	public Account(String name) {
 		setName(name);
-		setID(id);
+	}
+	
+	public void generateID() {
+		// TODO
 	}
 	
 	public void addReservation(Reservation r) {
