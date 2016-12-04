@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GuestView extends JFrame {
-	private final int WIDTH = 600;
-	private final int HEIGHT = 550;
+	private final int WIDTH = 640;
+	private final int HEIGHT = 480;
 	private final int TEXT_AREA_WIDTH = 20;
 	private final int TEXT_AREA_HEIGHT = 30;
 	private final int FIELD_WIDTH = 5;

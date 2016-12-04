@@ -6,8 +6,10 @@ import java.awt.event.*;
 import java.util.Calendar;
 
 public class ManagerView extends JFrame {
-	private final int WIDTH = 600;
-	private final int HEIGHT = 550;
+	private final int WIDTH = 800;
+	private final int HEIGHT = 600;
+	private final int TEXT_AREA_WIDTH = 20;
+	private final int TEXT_AREA_HEIGHT = 30;
 	private final int CELL_HEIGHT = 50;
 	private final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	private final String[] DAYS = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -18,11 +20,12 @@ public class ManagerView extends JFrame {
 	
 	private JTabbedPane managerTabs;
 	private JLabel monthAndYearLabel;
-	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton;
+	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton;
 	private JScrollPane calendarScrollPane;
-	private JPanel calendarPanel, calendarButtonPanel, roomsPanel;
+	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel;
 	private DefaultTableModel dtm;
 	private JTable calendarTable;
+	private JTextArea calendarInfoArea;
 	
 	int selectedRow, selectedColumn;
 
@@ -53,6 +56,14 @@ public class ManagerView extends JFrame {
 		
 		buildTableModel();
 		buildCalendarPanel();
+		
+		calendarInfoPanel = new JPanel(new BorderLayout());
+		
+		calendarInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
+		saveButton = new JButton("Save all");
+		calendarInfoPanel.add(calendarInfoArea, BorderLayout.CENTER);
+		calendarInfoPanel.add(saveButton, BorderLayout.SOUTH);
+		calendarPanel.add(calendarInfoPanel, BorderLayout.EAST);
 		
 		managerTabs.addTab("Calendar", calendarPanel);
 		managerTabs.addTab("Rooms", roomsPanel);
