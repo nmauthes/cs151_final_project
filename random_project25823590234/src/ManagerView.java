@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.Calendar;
 
 public class ManagerView extends JFrame {
-	private final int WIDTH = 500;
+	private final int WIDTH = 600;
 	private final int HEIGHT = 550;
 	private final int CELL_HEIGHT = 50;
 	private final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

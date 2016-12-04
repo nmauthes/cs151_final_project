@@ -13,7 +13,7 @@ public class HotelTester {
 		JTextField signupField;
 		JLabel signupLabel;
 		
-		JFrame loginFrame = new JFrame();
+		JFrame loginFrame = new JFrame(); // creates login prompt for guest
 		
 		loginFrame.setLayout(new FlowLayout());
 		loginFrame.setResizable(false);
