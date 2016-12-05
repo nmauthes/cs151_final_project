@@ -2,6 +2,7 @@ import javax.swing.event.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ReservationSystem { // model
 	private ArrayList<Account> accounts;
@@ -89,6 +90,20 @@ public class ReservationSystem { // model
 		calendar.add(Calendar.YEAR, -1);
 		selectedDate = calendar.getTime();
 		changeMade();
+	}
+	
+	public int getDaysBetween(String d1, String d2) {
+		Calendar temp = Calendar.getInstance();
+		
+		int[] d1Parsed = parseDate(d1);
+		int[] d2Parsed = parseDate(d2);
+		
+		temp.set(d1Parsed[2], d1Parsed[0], d1Parsed[1]);
+		Date date1 = temp.getTime();
+		temp.set(d2Parsed[2], d2Parsed[0], d2Parsed[1]);
+		Date date2 = temp.getTime();
+	
+		return (int) TimeUnit.MILLISECONDS.toDays(Math.abs(date2.getTime() - date1.getTime()));
 	}
 	
 	private void changeMade() {
