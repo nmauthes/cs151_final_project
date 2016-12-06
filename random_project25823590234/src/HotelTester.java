@@ -8,7 +8,7 @@ public class HotelTester {
 		GuestView g = new GuestView(rs);
 		ManagerView m = new ManagerView(rs);
 		
-		Reservation res1 = new Reservation("12/05/2016", "12/15/2016", "L", 1);
+		Reservation res1 = new Reservation("12/05/2016", "12/15/2016", "L", 1); // testing conflict check
 		Reservation res2 = new Reservation("12/10/2016", "12/30/2016", "L", 2);
 		System.out.println(res1.checkConflict(res2));
 		
