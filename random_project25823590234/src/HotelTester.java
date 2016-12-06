@@ -3,12 +3,20 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class HotelTester {	
-	public static void main(String[] args) {
-		final int FIELD_WIDTH = 5;
-
+	public static void main(String[] args) throws Exception {
 		ReservationSystem rs = new ReservationSystem();
 		GuestView g = new GuestView(rs);
 		ManagerView m = new ManagerView(rs);
+		
+		Reservation res1 = new Reservation("12/05/2016", "12/15/2016", "L", 1);
+		Reservation res2 = new Reservation("12/10/2016", "12/30/2016", "L", 2);
+		System.out.println(res1.checkConflict(res2));
+		
+		buildLoginFrame(rs, g, m);
+	}
+	
+	private static void buildLoginFrame(ReservationSystem rs, GuestView g, ManagerView m) {
+		final int FIELD_WIDTH = 5;
 		
 		JTextField signupField;
 		JLabel signupLabel;
@@ -35,13 +43,18 @@ public class HotelTester {
 		guestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] fields = { signupLabel, signupField };
-				String[] buttons = { "Sign in", "Sign up" };
+				String[] buttons = { "Sign up", "Sign in" };
 				int choice = JOptionPane.showOptionDialog(loginFrame, fields, "Guest login", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
 				
-//					if(choice == 0)
-//						System.out.println("Option 1");
-//					else
-//						System.out.println("Option 2");
+					if(choice == 0) { // add new user
+						String name = signupField.getText();
+						Account newAccount = new Account(name);
+						rs.addAccount(newAccount);
+					}
+					else {
+						// find user by id
+					}
+						
 				
 				g.setVisible(true);
 				m.dispose();

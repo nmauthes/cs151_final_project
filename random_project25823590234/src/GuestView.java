@@ -85,4 +85,8 @@ public class GuestView extends JFrame {
 	public void setActiveAccount(String id) {
 		//TODO
 	}
+	
+	public void showAvailableRooms() {
+	
+	}
 }

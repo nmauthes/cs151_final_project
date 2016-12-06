@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class ReservationSystem { // model
+	public final int NUMBER_OF_ROOMS = 20;
+	
 	private ArrayList<Account> accounts;
 	private ArrayList<ChangeListener> listeners;
 	
@@ -16,16 +18,25 @@ public class ReservationSystem { // model
 	private Date currentDate;
 	private Date selectedDate;
 	
-	public ReservationSystem() {
+	public ReservationSystem() throws Exception {
 		//TODO
 		
+		accounts = new ArrayList<>();
 		listeners = new ArrayList<>();
 		initCalendar();
 	}
 	
 	public void addAccount(Account account) {
-		// TODO
+		accounts.add(account);
 	}
+	
+//	public int[] getAvailableRooms(String checkinDate, String checkoutDate) {
+//		for(Account a : accounts) {
+//			for(Reservation r : a.getReservations()) {
+//				
+//			}
+//		}
+//	}
 	
 	// calendar functions
 	
@@ -34,6 +45,17 @@ public class ReservationSystem { // model
 	 */
 	public void goToCurrent() {
 		initCalendar();
+	}
+	
+	/**
+	 * Sets the calendar to the specified date.
+	 * 
+	 * @param date The date to go to
+	 */
+	public void goToDate(Date date) {
+		calendar.setTime(date);
+		
+		selectedDate = calendar.getTime();
 	}
 	
 	/**
@@ -92,6 +114,15 @@ public class ReservationSystem { // model
 		changeMade();
 	}
 	
+//	public boolean checkConflict(String start1, String end1, String start2, String end2) {
+//		Calendar temp = Calendar.getInstance();
+//		
+//		int[] start1Parsed = parseDate(start1);
+//		int[] end1Parsed = parseDate(end1);
+//		int[] start2Parsed = parseDate(start2);
+//		int[] end2Parsed = parseDate(end2);
+//	}
+	
 	public int getDaysBetween(String d1, String d2) {
 		Calendar temp = Calendar.getInstance();
 		
@@ -104,6 +135,23 @@ public class ReservationSystem { // model
 		Date date2 = temp.getTime();
 	
 		return (int) TimeUnit.MILLISECONDS.toDays(Math.abs(date2.getTime() - date1.getTime()));
+	}
+	
+	/**
+	 * Parses a String of the form MM/DD/YYYY into a format that can be used by the calendar.
+	 * 
+	 * @param date Date as a String
+	 * @return An int array representing the numeric date
+	 */
+	public static int[] parseDate(String date) {
+		String[] temp = date.split("/");
+		int[] parsed = new int[temp.length];
+		
+		parsed[0] = Integer.parseInt(temp[0]) - 1;
+		parsed[1] = Integer.parseInt(temp[1]);
+		parsed[2] = Integer.parseInt(temp[2]);
+			
+		return parsed;
 	}
 	
 	private void changeMade() {
@@ -127,23 +175,6 @@ public class ReservationSystem { // model
 		
 		currentDate = calendar.getTime();
 		selectedDate = currentDate;
-	}
-	
-	/**
-	 * Parses a String of the form MM/DD/YYYY into a format that can be used by the calendar.
-	 * 
-	 * @param date Date as a String
-	 * @return An int array representing the numeric date
-	 */
-	private int[] parseDate(String date) {
-		String[] temp = date.split("/");
-		int[] parsed = new int[temp.length];
-		
-		parsed[0] = Integer.parseInt(temp[0]) - 1;
-		parsed[1] = Integer.parseInt(temp[1]);
-		parsed[2] = Integer.parseInt(temp[2]);
-			
-		return parsed;
 	}
 	
 	//TODO load function
