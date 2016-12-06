@@ -9,7 +9,7 @@ public class HotelTester {
 		ManagerView m = new ManagerView(rs);
 		
 		Reservation res1 = new Reservation("12/05/2016", "12/15/2016", "L", 1); // testing conflict check
-		Reservation res2 = new Reservation("12/10/2016", "12/30/2016", "L", 2);
+		Reservation res2 = new Reservation("12/10/2016", "12/30/2016", "L", 1);
 		System.out.println(res1.checkConflict(res2));
 		
 		buildLoginFrame(rs, g, m);

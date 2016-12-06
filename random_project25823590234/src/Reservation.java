@@ -5,7 +5,7 @@ public class Reservation {
 	private Date checkInDate, checkOutDate;
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
 	private String roomType;
-	private int roomNumber;
+	private int roomNumber; // goes from 0 to 19 because CS
 	
 	// TODO add get and set methods
 	

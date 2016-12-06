@@ -30,13 +30,18 @@ public class ReservationSystem { // model
 		accounts.add(account);
 	}
 	
-//	public int[] getAvailableRooms(String checkinDate, String checkoutDate) {
-//		for(Account a : accounts) {
-//			for(Reservation r : a.getReservations()) {
-//				
-//			}
-//		}
-//	}
+	//TODO
+	public boolean[] getAvailableRooms(String checkinDate, String checkoutDate) {
+		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
+	
+		for(Account a : accounts) { // go through all the reservations and see if there's a conflict
+			for(Reservation r : a.getReservations()) {
+				// if conflict mark availableRooms[r.roomNumber] = false
+			}
+		}
+		
+		return availableRooms; // use to check what's available
+	}
 	
 	// calendar functions
 	
@@ -113,15 +118,6 @@ public class ReservationSystem { // model
 		selectedDate = calendar.getTime();
 		changeMade();
 	}
-	
-//	public boolean checkConflict(String start1, String end1, String start2, String end2) {
-//		Calendar temp = Calendar.getInstance();
-//		
-//		int[] start1Parsed = parseDate(start1);
-//		int[] end1Parsed = parseDate(end1);
-//		int[] start2Parsed = parseDate(start2);
-//		int[] end2Parsed = parseDate(end2);
-//	}
 	
 	public int getDaysBetween(String d1, String d2) {
 		Calendar temp = Calendar.getInstance();
