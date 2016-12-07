@@ -31,7 +31,7 @@ public class ReservationSystem { // model
 	}
 	
 	//TODO
-	public boolean[] getAvailableRooms(String checkinDate, String checkoutDate) {
+	public boolean[] getAvailableRooms(String checkinDate, String checkoutDate, String roomType) {
 		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
 	
 		for(Account a : accounts) { // go through all the reservations and see if there's a conflict
@@ -39,6 +39,8 @@ public class ReservationSystem { // model
 				// if conflict mark availableRooms[r.roomNumber] = false
 			}
 		}
+		
+		// 0-9 luxurious and 10 - 19 economic
 		
 		return availableRooms; // use to check what's available
 	}
@@ -50,17 +52,6 @@ public class ReservationSystem { // model
 	 */
 	public void goToCurrent() {
 		initCalendar();
-	}
-	
-	/**
-	 * Sets the calendar to the specified date.
-	 * 
-	 * @param date The date to go to
-	 */
-	public void goToDate(Date date) {
-		calendar.setTime(date);
-		
-		selectedDate = calendar.getTime();
 	}
 	
 	/**

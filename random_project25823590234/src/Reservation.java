@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 public class Reservation {
 	private Date checkInDate, checkOutDate;
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
-	private String roomType;
+	private String roomType; // room 0-9 luxurious and 10-19 economic?
 	private int roomNumber; // goes from 0 to 19 because CS
 	
 	// TODO add get and set methods
@@ -24,8 +24,8 @@ public class Reservation {
 	
 	public boolean checkConflict(Reservation other) {
 		//check to see if there is a date conflict
-		if(roomNumber == other.getRoomNumber() && ((checkInDate.getTime() - getCheckOutDate().getTime() < 0 && checkOutDate.getTime() - other.getCheckOutDate().getTime() > 0)
-				|| (checkOutDate.getTime() - other.getCheckInDate().getTime() > 0  && checkInDate.getTime() - other.getCheckInDate().getTime() < 0))) {
+		if(roomNumber == other.getRoomNumber() && ((checkInDate.compareTo(other.getCheckOutDate()) < 0 && checkOutDate.compareTo(other.getCheckOutDate()) > 0)
+				|| (checkOutDate.compareTo(other.getCheckInDate()) > 0  && checkInDate.compareTo(other.getCheckInDate()) < 0))) {
 			return true;
 		}
 		else
