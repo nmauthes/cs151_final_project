@@ -14,7 +14,20 @@ public class Account {
 		setName(name);
 		reservations = new ArrayList<>();
 	}
-	
+	/*
+	 * Fetches the real room numbers of all rooms reserved and returns a String representation
+	 */
+	public String getRoomsReserved()
+	{
+		String roomsList = "";
+		for (int i = 0; i < this.reservations.size();i++)
+		{
+			roomsList = roomsList + reservations.get(i).getRealRoomNumber() + ", ";
+		}
+		
+		return roomsList;
+		
+	}
 	public void generateID() {
 		// TODO
 	}

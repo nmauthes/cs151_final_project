@@ -12,6 +12,14 @@ public class Reservation {
 	public Date getCheckInDate() { return checkInDate; }
 	public Date getCheckOutDate() { return checkOutDate; }
 	public int getRoomNumber() { return roomNumber; }
+	/*
+	 * Returns the actual representation of the room, Ex room 0 --> room 1 in real life
+	 */
+	public String getRealRoomNumber()
+	{
+		int realRoom = this.getRoomNumber() + 1;
+		return Integer.toString(realRoom);
+	}
 	
 	public Reservation(String checkInDate, String checkOutDate, String roomType, int roomNumber) throws Exception {
 		sdf = new SimpleDateFormat("MM/dd/yyyy");

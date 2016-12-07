@@ -1,10 +1,12 @@
-
+import java.util.ArrayList;
 public class SimpleReceipt implements Receipt 
 {
 	public String showReceipt(Account account)
 	{
-			return "User: " + account.getName() + ", ID: " + account.getID() + account.getReservations();
-			// TO DO implement method to return all reservered rooms (NOT RESERVATIONS) by User and corresponding amount due
+			ArrayList<String> reservedRoomList = new ArrayList<String>();
+			
+			return "User: " + account.getName() + ", ID: " + account.getID() + ", List of reserved rooms: " + account.getRoomsReserved();
+			// TO DO implement corresponding amount due
 	
 	}
 }
