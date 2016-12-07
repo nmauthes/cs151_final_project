@@ -1,12 +1,10 @@
 
 public class SimpleReceipt implements Receipt 
 {
-	public void showReceipt(int id, String name, Account account)
+	public String showReceipt(Account account)
 	{
-		if (account.getName() == name && account.getID() == id)
-		{
-			System.out.print("User ID: " + id + ", Name: " + name);
+			return "User: " + account.getName() + ", ID: " + account.getID() + account.getReservations();
 			// TO DO implement method to return all reservered rooms (NOT RESERVATIONS) by User and corresponding amount due
-		}
+	
 	}
 }

@@ -1,12 +1,9 @@
 
 public class ComprehensiveReceipt implements Receipt 
 {
-	public void showReceipt(int id, String name, Account account)
+	public String showReceipt(Account account)
 	{
-		if (account.getName() == name && account.getID() == id)
-		{
-			System.out.print("User ID: " + id + ", Name: " + name);
-			System.out.print(account.getReservations());
-		}
+			return "User: " + account.getName() + ", ID: " + account.getID() + ", Reservations: " + account.getReservations();
+			//TO DO implement amount due
 	}
 }
