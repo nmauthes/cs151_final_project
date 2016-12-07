@@ -1,4 +1,9 @@
 
-public interface Receipt {
-
+public interface Receipt 
+{
+	/*
+	 * Abstract method will return the receipt given the correct Username and ID in the Model
+	 */
+	public void showReceipt(int id, String name, Account account);
+	
 }
