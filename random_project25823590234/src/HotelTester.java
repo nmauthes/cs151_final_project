@@ -60,7 +60,7 @@ public class HotelTester {
 				m.dispose();
 			}
 		});
-		
+		// Nick's testing
 		loginFrame.add(managerButton);
 		loginFrame.add(guestButton);
 		
