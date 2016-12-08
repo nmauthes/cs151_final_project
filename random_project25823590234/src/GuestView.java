@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GuestView extends JFrame {
 	private final int WIDTH = 640;
@@ -21,7 +24,7 @@ public class GuestView extends JFrame {
 	private JTextField roomNumberField, checkInField, checkOutField, roomTypeField;
 	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel;
 
-	public GuestView(ReservationSystem model) {
+	public GuestView(ReservationSystem model) throws Exception {
 		this.model = model;
 		
 		setTitle("Guest View");
@@ -56,9 +59,18 @@ public class GuestView extends JFrame {
 				
 				if(choice == JOptionPane.OK_OPTION) {
 					boolean[] rooms;
-					String checkIn = checkInField.getText();
-					String checkOut = checkOutField.getText(); // TODO add checks
 					
+					String checkIn = checkInField.getText();
+					String checkOut = checkOutField.getText();
+					
+					while(!checkStayValidity(checkIn, checkOut)) {
+						//do something (ex: popup window) to tell user
+						// "No account with this ID. Please enter a valid ID."
+						
+						checkIn = checkInField.getText();
+						checkOut = checkOutField.getText();
+					}
+							
 					try {
 						rooms = model.getOccupiedRooms(checkIn, checkOut, "test"); //TODO
 						availableRoomsArea.setText(printAvailableRooms(rooms, "L"));
@@ -115,6 +127,35 @@ public class GuestView extends JFrame {
 		
 		setLocationRelativeTo(null);
 		//setVisible(true);
+	}
+	
+	// input validation for checkIn and checkOut dates
+	public boolean checkStayValidity(String checkIn, String checkOut) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Date checkInDate = null;
+		Date checkOutDate = null;
+		
+		try {
+			checkInDate = sdf.parse(checkIn);
+			checkOutDate = sdf.parse(checkOut);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Date today = new Date();
+		
+		//checks not before current date
+		if(today.before(checkInDate)||today.before(checkOutDate))
+			return false;
+		
+		//checks less than 60 days
+		int diffInDays = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24) );
+		
+		if(diffInDays >= 60)
+			return false;
+		
+		return true;
 	}
 	
 	public void setActiveAccount(Account account) {

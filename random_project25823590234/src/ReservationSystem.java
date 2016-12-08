@@ -53,6 +53,8 @@ public class ReservationSystem { // model
 	
 		for(Account a : accounts) { // go through all the reservations and see if there's a conflict
 			for(Reservation r : a.getReservations()) {
+				
+				// mark occupied rooms as true, available rooms as false
 				if(r.checkConflict(checkIn, checkOut)) {
 					availableRooms[r.getRoomNumber()] = true; // room is occupied
 				}
@@ -62,6 +64,7 @@ public class ReservationSystem { // model
 		}
 		
 		// 0-9 luxurious and 10 - 19 economic
+		
 		
 		return availableRooms; // use to check what's available
 	}
