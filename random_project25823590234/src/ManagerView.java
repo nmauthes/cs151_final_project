@@ -4,13 +4,16 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
+import java.util.ArrayList;
 
 public class ManagerView extends JFrame {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
 	private final int TEXT_AREA_WIDTH = 20;
 	private final int TEXT_AREA_HEIGHT = 30;
-	private final int CELL_HEIGHT = 50;
+	private final int CALENDAR_CELL_HEIGHT = 50;
+	private final int ROOMS_CELL_HEIGHT = 10;
+	private final int ROOMS_NUMBER_OF_ROWS = 5;
 	private final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	private final String[] DAYS = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	private final int DAYS_PER_WEEK = 7;
@@ -19,15 +22,16 @@ public class ManagerView extends JFrame {
 	private ReservationSystem model;
 	
 	private JTabbedPane managerTabs;
-	private JLabel monthAndYearLabel;
-	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton;
-	private JScrollPane calendarScrollPane;
-	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel;
-	private DefaultTableModel dtm;
-	private JTable calendarTable;
-	private JTextArea calendarInfoArea;
+	private JLabel monthAndYearLabel, allReservationsLabel;
+	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton, cancelReservationButton;
+	private JScrollPane calendarScrollPane, roomsScrollPane;
+	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel, roomsInfoPanel;
+	private DefaultTableModel calendarModel, roomsModel;
+	private JTable calendarTable, roomsTable;
+	private JTextArea calendarInfoArea, roomsInfoArea;
 	
-	int selectedRow, selectedColumn;
+	int selectedCalendarRow, selectedCalendarColumn;
+	int selectedRoomsRow;
 
 	public ManagerView(ReservationSystem model) {
 		this.model = model;
@@ -47,23 +51,35 @@ public class ManagerView extends JFrame {
 		setResizable(false);
 		
 		managerTabs = new JTabbedPane();
-		
-		roomsPanel = new JPanel(new BorderLayout());
-		calendarPanel = new JPanel(new BorderLayout());
+	
+		calendarPanel = new JPanel(new BorderLayout()); // adds components of calendar panel
 		
 		monthAndYearLabel = new JLabel();
 		updateLabels();
 		
-		buildTableModel();
+		buildCalendarTableModel();
 		buildCalendarPanel();
 		
 		calendarInfoPanel = new JPanel(new BorderLayout());
 		
 		calendarInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
-		saveButton = new JButton("Save all");
+		saveButton = new JButton("Save all"); // TODO add functionality
 		calendarInfoPanel.add(calendarInfoArea, BorderLayout.CENTER);
 		calendarInfoPanel.add(saveButton, BorderLayout.SOUTH);
 		calendarPanel.add(calendarInfoPanel, BorderLayout.EAST);
+		
+		roomsPanel = new JPanel(new BorderLayout()); // adds components of rooms panel
+		
+		buildRoomsTableModel();
+		buildRoomsTablePanel();
+
+		roomsInfoPanel = new JPanel(new BorderLayout());
+		
+		roomsInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
+		cancelReservationButton = new JButton("Cancel selected reservation");
+		roomsInfoPanel.add(roomsInfoArea, BorderLayout.EAST);
+		roomsInfoPanel.add(cancelReservationButton, BorderLayout.SOUTH);
+		roomsPanel.add(roomsInfoPanel);
 		
 		managerTabs.addTab("Calendar", calendarPanel);
 		managerTabs.addTab("Rooms", roomsPanel);
@@ -71,6 +87,46 @@ public class ManagerView extends JFrame {
 		
 		setLocationRelativeTo(null);
 		//setVisible(true);
+	}
+	
+	private void buildRoomsTablePanel() {
+		allReservationsLabel = new JLabel("All reservations");
+		
+		roomsScrollPane = new JScrollPane(roomsTable);
+		
+		roomsPanel.add(allReservationsLabel, BorderLayout.NORTH);
+		roomsPanel.add(roomsScrollPane, BorderLayout.WEST);
+	}
+	
+	private void buildRoomsTableModel() { //TODO
+		MouseAdapter m = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				selectedRoomsRow = roomsTable.getSelectedRow();
+				
+				Reservation toBeCancelled = (Reservation) roomsTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
+			}
+		};
+		
+		roomsModel = new DefaultTableModel(buildRoomsArray(), null);
+		roomsTable = new JTable(roomsModel) {
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		};
+		roomsTable.setRowHeight(ROOMS_CELL_HEIGHT);
+		roomsTable.setCellSelectionEnabled(true);
+		roomsTable.addMouseListener(m);
+	}
+	
+	private Reservation[][] buildRoomsArray() {
+		ArrayList<Reservation> allReservations = model.getAllReservations();
+		Reservation[][] temp = new Reservation[ROOMS_NUMBER_OF_ROWS][2];
+		
+		for(int i = 0; i < allReservations.size(); i++) {
+			temp[i][1] = allReservations.get(i);
+		}
+		
+		return temp;
 	}
 	
 	private void buildCalendarPanel() {
@@ -113,24 +169,24 @@ public class ManagerView extends JFrame {
 		calendarPanel.add(calendarButtonPanel, BorderLayout.SOUTH);
 	}
 	
-	private void buildTableModel() {
+	private void buildCalendarTableModel() {
 		MouseAdapter m = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				selectedRow = calendarTable.getSelectedRow();
-				selectedColumn = calendarTable.getSelectedColumn();
+				selectedCalendarRow = calendarTable.getSelectedRow();
+				selectedCalendarColumn = calendarTable.getSelectedColumn();
 				
-				int day = (int) calendarTable.getValueAt(selectedRow, selectedColumn);
+				int day = (int) calendarTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
 				model.goToDate(model.getCalendar().get(Calendar.MONTH), day, model.getCalendar().get(Calendar.YEAR));
 			}
 		};
 		
-		dtm = new DefaultTableModel(buildMonthArray(), DAYS);
-		calendarTable = new JTable(dtm) {
+		calendarModel = new DefaultTableModel(buildMonthArray(), DAYS);
+		calendarTable = new JTable(calendarModel) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 		};
-		calendarTable.setRowHeight(CELL_HEIGHT);
+		calendarTable.setRowHeight(CALENDAR_CELL_HEIGHT);
 		calendarTable.setCellSelectionEnabled(true);
 		calendarTable.addMouseListener(m);
 		highlightSelectedCell();
@@ -153,8 +209,8 @@ public class ManagerView extends JFrame {
 					temp[i][j] = day++;
 					
 				if(day == model.getCalendar().get(Calendar.DAY_OF_MONTH) + 1) {
-					selectedRow = i;
-					selectedColumn = j;
+					selectedCalendarRow = i;
+					selectedCalendarColumn = j;
 				}
 			}
 		}
@@ -168,14 +224,14 @@ public class ManagerView extends JFrame {
 	private void updateTableModel() {
 		Integer[][] temp = buildMonthArray();
 	
-		dtm = new DefaultTableModel(temp, DAYS);
-		calendarTable.setModel(dtm);
+		calendarModel = new DefaultTableModel(temp, DAYS);
+		calendarTable.setModel(calendarModel);
 	}
 	
 	private void highlightSelectedCell() {
-		for(int i = 0; i < dtm.getRowCount(); i++) {
-			for(int j = 0; j < dtm.getColumnCount(); j++) {
-				Integer val = (Integer) dtm.getValueAt(i, j);
+		for(int i = 0; i < calendarModel.getRowCount(); i++) {
+			for(int j = 0; j < calendarModel.getColumnCount(); j++) {
+				Integer val = (Integer) calendarModel.getValueAt(i, j);
 				
 				if(val != null && val == model.getCalendar().get(Calendar.DAY_OF_MONTH))
 					calendarTable.changeSelection(i, j, false, false);

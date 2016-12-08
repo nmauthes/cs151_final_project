@@ -42,8 +42,12 @@ public class Account {
 		reservations.add(r);
 	}
 	
+	public void removeReservation(Reservation r) {
+		reservations.remove(r);
+	}
+	
 	public String toString() {
-		return "Name: " + name + "ID: " + id; // TODO add more info
+		return "Name: " + name + " ID: " + id; // TODO add more info
 	}
 	
 }

@@ -36,7 +36,7 @@ public class Reservation {
 		//check to see if there is a date conflict
 		if((checkInDate.compareTo(otherCheckOut) < 0 && checkOutDate.compareTo(otherCheckOut) > 0)
 				|| (checkOutDate.compareTo(otherCheckIn) > 0  && checkInDate.compareTo(otherCheckIn) < 0)) {
-			return true;
+			return true; // true if conflict
 		}
 		else
 			return false;

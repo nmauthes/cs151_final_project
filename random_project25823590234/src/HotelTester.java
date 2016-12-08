@@ -47,8 +47,6 @@ public class HotelTester {
 						Account newAccount = new Account(name);
 						rs.addAccount(newAccount);
 						g.setActiveAccount(newAccount);
-						
-						System.out.println(rs.getAccounts()); 
 					}
 					else {
 						// find user by id

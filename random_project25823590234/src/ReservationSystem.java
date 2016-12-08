@@ -69,6 +69,29 @@ public class ReservationSystem { // model
 		return availableRooms; // use to check what's available
 	}
 	
+	public void findAndRemoveReservation(Reservation toRemove) { // finds account with specified reservation and removes
+		for(Account a : accounts) {
+			for(Reservation r : a.getReservations()) {
+				if(r.equals(toRemove))
+					a.removeReservation(r);
+			}
+		}
+	}
+	
+	// Collects and returns all reservations
+	
+	public ArrayList<Reservation> getAllReservations() {
+		ArrayList<Reservation> temp = new ArrayList<>();
+	
+		for(Account a : accounts) {
+			for(Reservation r : a.getReservations()) {
+				temp.add(r);
+			}
+		}
+		
+		return temp;
+	}
+	
 	/*
 	 * TODO
 	 * Reservation Program starts here
