@@ -66,6 +66,66 @@ public class ReservationSystem { // model
 		return availableRooms; // use to check what's available
 	}
 	
+	/*
+	 * TODO
+	 * Reservation Program starts here
+	 * Calls InitialView's mainMenuDisplay()
+	 */
+	public void mainMenu() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * This method calls GuestView's initialDisplay()
+	 */
+	public void guest() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * This method call's ManagerView's initialDisplay()
+	 */
+	public void manager() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * This method creates a new Account
+	 * and adds it to Accounts ArrayList
+	 * Call's GuestView's accountMadeDisplay(int ID)
+	 * and passes the new account's ID
+	 */
+	public void makeAccount(String name) {
+		
+	}
+	
+	/*
+	 * TODO
+	 * check's validity of ID
+	 * if account with ID exists,
+	 * 		set currentAccount to account with enteredID
+	 * 		and return true
+	 * else false
+	 */
+	public boolean checkValidID(int enteredID) {
+		
+		
+		return false;
+	}
+	
+	/*
+	 * TODO
+	 * Cancel all of currentAccount's reservations that in cancellations ArrayList
+	 */
+	public void cancelReservations(ArrayList<Reservation> cancellations) {
+		
+	}
+	
+	
+	
 	// calendar functions
 	
 	/**
@@ -184,6 +244,8 @@ public class ReservationSystem { // model
 		currentDate = calendar.getTime();
 		selectedDate = currentDate;
 	}
+	
+	
 	
 	//TODO load function
 	//TODO save function

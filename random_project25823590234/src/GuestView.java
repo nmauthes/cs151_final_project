@@ -146,4 +146,102 @@ public class GuestView extends JFrame {
 		
 		return roomsList;
 	}
+	
+	/*
+	 * TODO
+	 * buttons needed: "Sign In" button, "Sign Up" button
+	 * "Sign Up" button pressed --> calls this GuestView's signUpDisplay()
+	 * "Sign In" button pressed --> calls this GuestView's signInDisplay()
+	 */
+	public void initialDisplay() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * needs "Name" textfield, "Make Account" button
+	 * Store entered name in variable to pass to MakeAccount(name)
+	 * "Make Account" button pressed --> calls Model's makeAccount(name)
+	 */
+	public void signUpDisplay() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * needs "User ID" textfield, "Login" button
+	 * "Login" button pressed --> uses while button to does input validation of ID using Model's checkValidID(enteredID)
+	 * if ID is valid, Model will set Model's currentAccount to account with enteredID
+	 * if ID is valid --> call this GuestView's reservationDisplay()
+	 * 
+	 */
+	public void signInDisplay() {
+		
+		/*
+		 *  Use while loop for input validation. Something like this:
+		 *  while( ! model.checkValidID(enteredID) {
+		 *  	do something (ex: popup window) to tell user
+		 *  	"No account with this ID. Please enter a valid ID."
+		 *  }
+		 */
+	}
+	
+	/*
+	 * TODO
+	 * needs "Make Reservation" button, "View/Cancel Reservation" button
+	 * "Make Reservation" button --> call's this GuestView's makeReservationDisplay()
+	 * "View/Cancel Reservation" button --> call's this GuestView's viewCancelDisplay()
+	 */
+	public void reservationDisplay() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * 
+	 * 
+	 */
+	public void makeReservationDisplay() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * This method display's the user's current reservations. Each displayed reservation must be
+	 * selectable (so that more than one can be selected and cancelled at the same time)
+	 * Use Model's getUsersReservations() to get ArrayList<Reservation> of currentAccount's reservations.
+	 * 
+	 * needs "Back to Main Menu" button, "Back to Reservation Window" button, "Cancel Selected Reservations"
+	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
+	 * "Back to Reservation Window" button pressed --> calls this GuestView's reservationDisplay()
+	 * "Cancel Selected Reservations" button pressed --> calls Model's cancelReservations(ArrayList<Reservation> cancellations) 
+	 * 		^need to pass parameter to cancelReservations() to indicate which reservations to cancel
+	 * 		^find best way to pass this information
+	 * 
+	 * After Model's cancelReservations method called, call this GuestView's successfullyCancelledDisplay()
+	 */
+	public void viewCancelDisplay() {
+		
+	}
+	
+	/*
+	 * TODO
+	 * need "Back to Main Menu" button
+	 * Display "Successfully Cancelled Selected Reservations"
+	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
+	 */
+	public void successfullyCancelledDisplay() {
+		
+	}
+	
+	
+	/*
+	 * TODO
+	 * Displays User's new ID
+	 * needs "Back to Main Menu" button
+	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
+	 */
+	public static void accountMadeDisplay(int ID) {
+		
+	}
 }
