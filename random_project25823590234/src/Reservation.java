@@ -30,15 +30,25 @@ public class Reservation {
 		this.roomNumber = roomNumber;
 	}
 	
-	public boolean checkConflict(Reservation other) {
+	public boolean checkConflict(Date otherCheckIn, Date otherCheckOut) {
 		//check to see if there is a date conflict
-		if(roomNumber == other.getRoomNumber() && ((checkInDate.compareTo(other.getCheckOutDate()) < 0 && checkOutDate.compareTo(other.getCheckOutDate()) > 0)
-				|| (checkOutDate.compareTo(other.getCheckInDate()) > 0  && checkInDate.compareTo(other.getCheckInDate()) < 0))) {
+		if((checkInDate.compareTo(otherCheckOut) < 0 && checkOutDate.compareTo(otherCheckOut) > 0)
+				|| (checkOutDate.compareTo(otherCheckIn) > 0  && checkInDate.compareTo(otherCheckIn) < 0)) {
 			return true;
 		}
 		else
 			return false;
 	}
+	
+//	public boolean checkConflict(Reservation other) {
+//		//check to see if there is a date conflict
+//		if(roomNumber == other.getRoomNumber() && ((checkInDate.compareTo(other.getCheckOutDate()) < 0 && checkOutDate.compareTo(other.getCheckOutDate()) > 0)
+//				|| (checkOutDate.compareTo(other.getCheckInDate()) > 0  && checkInDate.compareTo(other.getCheckInDate()) < 0))) {
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	
 	public String toString() {
 		return null; // TODO

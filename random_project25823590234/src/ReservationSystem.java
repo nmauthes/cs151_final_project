@@ -2,7 +2,10 @@ import javax.swing.event.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
+
+import java.util.Arrays; // for testing
 
 public class ReservationSystem { // model
 	public final int NUMBER_OF_ROOMS = 20;
@@ -14,6 +17,7 @@ public class ReservationSystem { // model
 	public Calendar getCalendar() { return calendar; }
 	public void addListener(ChangeListener cl) { listeners.add(cl); }
 	
+	private SimpleDateFormat sdf;  // for parsing Dates from Strings
 	private Calendar calendar;
 	private Date currentDate;
 	private Date selectedDate;
@@ -23,6 +27,7 @@ public class ReservationSystem { // model
 		
 		accounts = new ArrayList<>();
 		listeners = new ArrayList<>();
+		sdf = new SimpleDateFormat("MM/dd/yyyy");
 		initCalendar();
 	}
 	
@@ -31,12 +36,19 @@ public class ReservationSystem { // model
 	}
 	
 	//TODO
-	public boolean[] getAvailableRooms(String checkinDate, String checkoutDate, String roomType) {
+	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate, String roomType) throws Exception {
 		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
+	
+		Date checkIn = sdf.parse(checkInDate);
+		Date checkOut = sdf.parse(checkOutDate);
 	
 		for(Account a : accounts) { // go through all the reservations and see if there's a conflict
 			for(Reservation r : a.getReservations()) {
-				// if conflict mark availableRooms[r.roomNumber] = false
+				if(r.checkConflict(checkIn, checkOut)) {
+					availableRooms[r.getRoomNumber()] = true; // room is occupied
+				}
+				else
+					availableRooms[r.getRoomNumber()] = false;
 			}
 		}
 		

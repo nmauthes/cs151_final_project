@@ -16,7 +16,7 @@ public class GuestView extends JFrame {
 	private JTabbedPane guestTabs;
 	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel;
 	private JTextArea availableRoomsArea;
-	private JTextField roomNumberField, checkinField, checkoutField;
+	private JTextField roomNumberField, checkInField, checkOutField;
 	private JLabel availableRoomsLabel, roomNumberLabel;
 
 	public GuestView(ReservationSystem model) {
@@ -42,14 +42,31 @@ public class GuestView extends JFrame {
 		makeReservationButton = new JButton("Make reservation");
 		confirmButton = new JButton("Confirm");
 		
-		checkinField = new JTextField(FIELD_WIDTH);
-		checkoutField = new JTextField(FIELD_WIDTH);
+		checkInField = new JTextField(FIELD_WIDTH);
+		checkOutField = new JTextField(FIELD_WIDTH);
 		
 		makeReservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] message = {"Enter check-in date:", checkinField, "Enter check-out date:", checkoutField};
+				Object[] message = {"Enter check-in date:", checkInField, "Enter check-out date:", checkOutField};
 				
 				int choice = JOptionPane.showConfirmDialog(GuestView.this, message, "Enter dates", JOptionPane.OK_CANCEL_OPTION);
+				
+				if(choice == JOptionPane.OK_OPTION) {
+					boolean[] rooms;
+					String checkIn = checkInField.getText();
+					String checkOut = checkOutField.getText(); // TODO add 60 days check
+					
+					try {
+						rooms = model.getOccupiedRooms(checkIn, checkOut, "test");
+						availableRoomsArea.setText(printAvailableRooms(rooms, "L"));
+					}
+					catch(Exception ex) {
+						JOptionPane.showMessageDialog(GuestView.this, "Please enter valid date(s)", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					checkInField.setText("");
+					checkOutField.setText("");
+				}
 			}
 		});
 		confirmButton.addActionListener(new ActionListener() {
@@ -86,7 +103,28 @@ public class GuestView extends JFrame {
 		//TODO
 	}
 	
-	public void showAvailableRooms() {
-	
+	public String printAvailableRooms(boolean[] rooms, String roomType) {
+		String roomsList = "";
+		int startingIndex, endingIndex;
+		
+		if(roomType.equalsIgnoreCase("L")) {
+			startingIndex = 0;
+			endingIndex = rooms.length / 2;
+		}
+		else {
+			startingIndex = rooms.length / 2;
+			endingIndex = rooms.length;
+		}
+		
+		for(int i = startingIndex; i < endingIndex; i++) {
+			if(!rooms[i]) {
+				roomsList += "Room " + i + "\n";
+			}
+		}
+		
+		if(roomsList.equals(""))
+			return "There are no such rooms available";
+		
+		return roomsList;
 	}
 }
