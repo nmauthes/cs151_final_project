@@ -11,13 +11,15 @@ public class GuestView extends JFrame {
 	
 	private ReservationSystem model;
 	private Account activeAccount;
+	private boolean[] currentlyOccupiedRooms;
+	private String currentCheckInDate, currentCheckOutDate;
 	
 	private JButton makeReservationButton, confirmButton;
 	private JTabbedPane guestTabs;
 	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel;
 	private JTextArea availableRoomsArea;
-	private JTextField roomNumberField, checkInField, checkOutField;
-	private JLabel availableRoomsLabel, roomNumberLabel;
+	private JTextField roomNumberField, checkInField, checkOutField, roomTypeField;
+	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel;
 
 	public GuestView(ReservationSystem model) {
 		this.model = model;
@@ -39,26 +41,30 @@ public class GuestView extends JFrame {
 		availableRoomsLabel = new JLabel("Available rooms");
 		reservationPanel.add(availableRoomsLabel, BorderLayout.NORTH);
 		
-		makeReservationButton = new JButton("Make reservation");
-		confirmButton = new JButton("Confirm");
+		makeReservationButton = new JButton("Make new reservation");
+		confirmButton = new JButton("Confirm?");
 		
 		checkInField = new JTextField(FIELD_WIDTH);
 		checkOutField = new JTextField(FIELD_WIDTH);
+		roomTypeField = new JTextField(FIELD_WIDTH); //TODO combo box?
 		
 		makeReservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] message = {"Enter check-in date:", checkInField, "Enter check-out date:", checkOutField};
+				Object[] message = {"Enter check-in date:", checkInField, "Enter check-out date:", checkOutField, "Enter room type:", roomTypeField};
 				
 				int choice = JOptionPane.showConfirmDialog(GuestView.this, message, "Enter dates", JOptionPane.OK_CANCEL_OPTION);
 				
 				if(choice == JOptionPane.OK_OPTION) {
 					boolean[] rooms;
 					String checkIn = checkInField.getText();
-					String checkOut = checkOutField.getText(); // TODO add 60 days check
+					String checkOut = checkOutField.getText(); // TODO add checks
 					
 					try {
-						rooms = model.getOccupiedRooms(checkIn, checkOut, "test");
+						rooms = model.getOccupiedRooms(checkIn, checkOut, "test"); //TODO
 						availableRoomsArea.setText(printAvailableRooms(rooms, "L"));
+						currentlyOccupiedRooms = rooms;
+						currentCheckInDate = checkIn;
+						currentCheckOutDate = checkOut;
 					}
 					catch(Exception ex) {
 						JOptionPane.showMessageDialog(GuestView.this, "Please enter valid date(s)", "Error", JOptionPane.ERROR_MESSAGE);
@@ -71,7 +77,19 @@ public class GuestView extends JFrame {
 		});
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int newRoomNumber = Integer.parseInt(roomNumberField.getText());
+				if(!currentlyOccupiedRooms[newRoomNumber]) {
+					String roomType = (newRoomNumber > ReservationSystem.NUMBER_OF_ROOMS / 2) ? "L" : "E";
+					try {
+						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
+						activeAccount.addReservation(r);
+						JOptionPane.showMessageDialog(GuestView.this, "Receipt goes here", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // TODO add receipt here
+					}
+					catch(Exception ex) {
+						JOptionPane.showMessageDialog(GuestView.this, "Reservation error", "An error occurred", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				availableRoomsArea.setText("");
 			}
 		});
 		
@@ -99,8 +117,9 @@ public class GuestView extends JFrame {
 		//setVisible(true);
 	}
 	
-	public void setActiveAccount(String id) {
-		//TODO
+	public void setActiveAccount(Account account) {
+		activeAccount = account;
+		availableRoomsArea.setText("Current user: " + account.getName());
 	}
 	
 	public String printAvailableRooms(boolean[] rooms, String roomType) {

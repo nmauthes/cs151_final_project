@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.Arrays; // for testing
 
 public class ReservationSystem { // model
-	public final int NUMBER_OF_ROOMS = 20;
+	public static final int NUMBER_OF_ROOMS = 20;
 	
 	private ArrayList<Account> accounts;
 	private ArrayList<ChangeListener> listeners;
@@ -33,6 +33,15 @@ public class ReservationSystem { // model
 	
 	public void addAccount(Account account) {
 		accounts.add(account);
+	}
+	
+	public Account getAccountByID(int id) {
+		for(Account a : accounts) {
+			if(a.getID() == id)
+				return a;
+		}
+		
+		return null;
 	}
 	
 	//TODO
