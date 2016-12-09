@@ -58,7 +58,7 @@ public class Reservation {
 		String checkOut = sdf.format(checkOutDate);
 		int roomNum = roomNumber + 1;
 		
-		return "Check In Date: " + checkIn + "Check Out Date: " + checkOut + "Room Number: " + roomNum;
+		return "Check In Date: " + checkIn + " Check Out Date: " + checkOut + " Room Number: " + roomNum;
 		// TODO
 	}
 }

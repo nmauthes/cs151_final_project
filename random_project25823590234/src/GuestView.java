@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GuestView extends JFrame {
 	private final int WIDTH = 800;
@@ -24,10 +25,10 @@ public class GuestView extends JFrame {
 	
 	private JButton makeReservationButton, confirmButton, cancelReservationButton;
 	private JTabbedPane guestTabs;
-	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel, roomsInfoPanel;
-	private JTextArea availableRoomsArea, roomsInfoArea;
+	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel, cancelPanel;
+	private JTextArea availableRoomsArea, cancelArea;
 	private JTextField roomNumberField, checkInField, checkOutField, roomTypeField;
-	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel, allReservationsLabel;
+	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel, allReservationsLabel, displayReservationsLabel;
 	private JScrollPane roomsScrollPane;
 	private JTable roomsTable;
 	private DefaultTableModel roomsModel;
@@ -63,16 +64,15 @@ public class GuestView extends JFrame {
 		
 		viewCancelPanel = new JPanel(new BorderLayout()); // adds components of rooms panel
 		
-		buildRoomsTableModel();	//flo
+//		buildRoomsTableModel();	//flo
 		buildRoomsTablePanel();	//flo
 		
-		roomsInfoPanel = new JPanel(new BorderLayout());
+		cancelPanel = new JPanel(new BorderLayout());
 		
-		roomsInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
+		cancelArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
 		cancelReservationButton = new JButton("Cancel selected reservation");
-		roomsInfoPanel.add(roomsInfoArea, BorderLayout.EAST);
-		roomsInfoPanel.add(cancelReservationButton, BorderLayout.SOUTH);
-		viewCancelPanel.add(roomsInfoPanel);
+		cancelPanel.add(cancelArea, BorderLayout.EAST);
+//		cancelPanel.add(cancelReservationButton, BorderLayout.SOUTH);
 		
 		makeReservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,6 +110,8 @@ public class GuestView extends JFrame {
 				}
 			}
 		});
+		
+		try {
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int newRoomNumber = Integer.parseInt(roomNumberField.getText());
@@ -127,6 +129,10 @@ public class GuestView extends JFrame {
 				availableRoomsArea.setText("");
 			}
 		});
+		
+		} catch (Exception e) {
+			
+		}
 		
 		reservationButtonPanel.add(makeReservationButton);
 		reservationButtonPanel.add(confirmButton);
@@ -152,36 +158,81 @@ public class GuestView extends JFrame {
 		//setVisible(true);
 	}
 	
+	//TODO
 	//flo
+	// this method gets all reservations of currentAccount and prints them in viewCancelPanel
 	private void buildRoomsTablePanel() {
 		allReservationsLabel = new JLabel("All reservations");
-		
-		roomsScrollPane = new JScrollPane(roomsTable);
-		
 		viewCancelPanel.add(allReservationsLabel, BorderLayout.NORTH);
-		viewCancelPanel.add(roomsScrollPane, BorderLayout.WEST);
+		
+		DefaultListModel<Reservation> viewReservationsModel = new DefaultListModel<Reservation>();
+		
+		//need to get Reservations to print 
+		
+		ArrayList<Reservation> viewReservationsAL = new ArrayList<Reservation>();
+//		List<Reservation> cancelReservations = new ArrayList<Reservation>();
+		//add all activeAccount's Reservations to dfl
+		try {
+			viewReservationsAL.add(new Reservation("11/20/2018", "11/25/2018", "L", 5));
+			viewReservationsAL.add(new Reservation("10/20/2018", "10/25/2018", "L", 4));
+			viewReservationsAL.add(new Reservation("12/20/2018", "12/25/2018", "E", 6));
+		} catch (Exception e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		for(int i = 0; i < viewReservationsAL.size(); i++) {
+			viewReservationsModel.addElement(viewReservationsAL.get(i));
+		}
+
+		//TODO set list to allow multiple selections
+		
+		JList<Reservation> viewReservationsList = new JList<Reservation>(viewReservationsModel);
+
+		JScrollPane viewReservationsScrollPane = new JScrollPane(viewReservationsList);
+		
+		viewCancelPanel.add(viewReservationsScrollPane, BorderLayout.WEST);
+		
+//		cancelReservationButton.addActionListener( new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent e) {
+//				 when clicked must delete selected reservations from viewReservationsList from activeAccount
+//				ArrayList<Reservation> cancelReservations = (ArrayList<Reservation>) viewReservationsList.getSelectedValuesList();
+//				
+//				for(int i = 0; i < viewReservationsAL.size(); i++) {
+//					if(cancelReservations.contains(viewReservationsAL.get(i))) {
+//						viewReservationsAL.remove(i);
+//					}
+//				}
+//				//TODO
+//			}
+//		});
+		
+		viewCancelPanel.add(cancelReservationButton, BorderLayout.SOUTH);
+		viewCancelPanel.add(cancelPanel);
+
 	}
 	
 	//flo
-	private void buildRoomsTableModel() { //TODO
-		MouseAdapter m = new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				selectedRoomsRow = roomsTable.getSelectedRow();
-				
-				Reservation toBeCancelled = (Reservation) roomsTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
-			}
-		};
-		
-		roomsModel = new DefaultTableModel(buildRoomsArray(), null);
-		roomsTable = new JTable(roomsModel) {
-			public boolean isCellEditable(int row, int col) {
-				return false;
-			}
-		};
-		roomsTable.setRowHeight(ROOMS_CELL_HEIGHT);
-		roomsTable.setCellSelectionEnabled(true);
-		roomsTable.addMouseListener(m);
-	}
+//	private void buildRoomsTableModel() { //TODO
+//		MouseAdapter m = new MouseAdapter() {
+//			public void mousePressed(MouseEvent e) {
+//				selectedRoomsRow = roomsTable.getSelectedRow();
+//				
+//				Reservation toBeCancelled = (Reservation) roomsTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
+//			}
+//		};
+//		
+//		roomsModel = new DefaultTableModel(buildRoomsArray(), null);
+//		roomsTable = new JTable(roomsModel) {
+//			public boolean isCellEditable(int row, int col) {
+//				return false;
+//			}
+//		};
+//		roomsTable.setRowHeight(ROOMS_CELL_HEIGHT);
+//		roomsTable.setCellSelectionEnabled(true);
+//		roomsTable.addMouseListener(m);
+//	}
 	
 	//flo
 	private Reservation[][] buildRoomsArray() {

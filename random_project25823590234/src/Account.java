@@ -50,4 +50,13 @@ public class Account {
 		return "Name: " + name + " ID: " + id; // TODO add more info
 	}
 	
+	public String[] getPrintableReservations() {
+		String[] viewReservations = new String[reservations.size()];
+		for(int i = 0; i < viewReservations.length; i++) {
+			viewReservations[i] = reservations.get(i).toString();
+		}
+	
+		return viewReservations;
+	}
+	
 }

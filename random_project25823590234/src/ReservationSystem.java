@@ -40,7 +40,6 @@ public class ReservationSystem { // model
 			if(a.getID() == id)
 				return a;
 		}
-		
 		return null;
 	}
 	
