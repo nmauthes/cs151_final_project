@@ -23,8 +23,6 @@ public class ReservationSystem { // model
 	private Date selectedDate;
 	
 	public ReservationSystem() throws Exception {
-		//TODO
-		
 		accounts = new ArrayList<>();
 		listeners = new ArrayList<>();
 		sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -43,7 +41,6 @@ public class ReservationSystem { // model
 		return null;
 	}
 	
-	//TODO
 	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate, String roomType) throws Exception {
 		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
 	
@@ -64,7 +61,6 @@ public class ReservationSystem { // model
 		
 		// 0-9 luxurious and 10 - 19 economic
 		
-		
 		return availableRooms; // use to check what's available
 	}
 	
@@ -75,6 +71,19 @@ public class ReservationSystem { // model
 					a.removeReservation(r);
 			}
 		}
+	}
+	
+	public ArrayList<Reservation> getReservationsByRoomNumber(int number) { // collects all reservations associated with specified room number
+		ArrayList<Reservation> temp = new ArrayList<>();
+		
+		for(Account a : accounts) {
+			for(Reservation r : a.getReservations()) {
+				if(r.getRoomNumber() == number)
+					temp.add(r);
+			}
+		}
+		
+		return temp;
 	}
 	
 	// Collects and returns all reservations

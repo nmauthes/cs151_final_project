@@ -8,6 +8,18 @@ public class HotelTester {
 		GuestView g = new GuestView(rs);
 		ManagerView m = new ManagerView(rs);
 		
+		//tests
+		Account a = new Account("Account a");
+		Reservation r;
+		try {
+			r = new Reservation("12/15/2016", "12/20/2016", "L", 1);
+			a.addReservation(r);
+			rs.addAccount(a);
+		}
+		catch(Exception e) {}
+		
+		System.out.println(rs.getAccounts());
+		
 		buildLoginFrame(rs, g, m);
 	}
 	

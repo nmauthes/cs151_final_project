@@ -22,12 +22,14 @@ public class ManagerView extends JFrame {
 	private ReservationSystem model;
 	
 	private JTabbedPane managerTabs;
-	private JLabel monthAndYearLabel, allReservationsLabel;
-	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton, cancelReservationButton;
+	private JLabel monthAndYearLabel, roomNumbersLabel;
+	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton;
 	private JScrollPane calendarScrollPane, roomsScrollPane;
 	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel, roomsInfoPanel;
-	private DefaultTableModel calendarModel, roomsModel;
-	private JTable calendarTable, roomsTable;
+	private DefaultTableModel calendarModel;
+	private DefaultListModel<Integer> roomsModel;
+	private JTable calendarTable;
+	private JList<Integer> roomsList;
 	private JTextArea calendarInfoArea, roomsInfoArea;
 	
 	int selectedCalendarRow, selectedCalendarColumn;
@@ -69,16 +71,13 @@ public class ManagerView extends JFrame {
 		calendarPanel.add(calendarInfoPanel, BorderLayout.EAST);
 		
 		roomsPanel = new JPanel(new BorderLayout()); // adds components of rooms panel
-		
-		buildRoomsTableModel();
-		buildRoomsTablePanel();
+
+		buildRoomsListPanel();
 
 		roomsInfoPanel = new JPanel(new BorderLayout());
 		
 		roomsInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
-		cancelReservationButton = new JButton("Cancel selected reservation");
-		roomsInfoPanel.add(roomsInfoArea, BorderLayout.EAST);
-		roomsInfoPanel.add(cancelReservationButton, BorderLayout.SOUTH);
+		roomsInfoPanel.add(roomsInfoArea, BorderLayout.CENTER);
 		roomsPanel.add(roomsInfoPanel);
 		
 		managerTabs.addTab("Calendar", calendarPanel);
@@ -89,44 +88,34 @@ public class ManagerView extends JFrame {
 		//setVisible(true);
 	}
 	
-	private void buildRoomsTablePanel() {
-		allReservationsLabel = new JLabel("All reservations");
+	private void buildRoomsListPanel() {
+		roomNumbersLabel = new JLabel("Room information:");
 		
-		roomsScrollPane = new JScrollPane(roomsTable);
-		
-		roomsPanel.add(allReservationsLabel, BorderLayout.NORTH);
-		roomsPanel.add(roomsScrollPane, BorderLayout.WEST);
-	}
-	
-	private void buildRoomsTableModel() { //TODO
-		MouseAdapter m = new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				selectedRoomsRow = roomsTable.getSelectedRow();
+		ListSelectionListener l = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				ArrayList<Reservation> reservations = model.getReservationsByRoomNumber(roomsList.getSelectedIndex());
 				
-				Reservation toBeCancelled = (Reservation) roomsTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
+				String list = "";
+				for(Reservation r : reservations) {
+					list += r.toString();
+				}
+				
+				roomsInfoArea.setText(list);
 			}
 		};
 		
-		roomsModel = new DefaultTableModel(buildRoomsArray(), null);
-		roomsTable = new JTable(roomsModel) {
-			public boolean isCellEditable(int row, int col) {
-				return false;
-			}
-		};
-		roomsTable.setRowHeight(ROOMS_CELL_HEIGHT);
-		roomsTable.setCellSelectionEnabled(true);
-		roomsTable.addMouseListener(m);
-	}
-	
-	private Reservation[][] buildRoomsArray() {
-		ArrayList<Reservation> allReservations = model.getAllReservations();
-		Reservation[][] temp = new Reservation[ROOMS_NUMBER_OF_ROWS][2];
-		
-		for(int i = 0; i < allReservations.size(); i++) {
-			temp[i][1] = allReservations.get(i);
+		Integer[] rooms = new Integer[ReservationSystem.NUMBER_OF_ROOMS];
+		for(int i = 0; i < rooms.length; i++) {
+			rooms[i] = i;
 		}
 		
-		return temp;
+		roomsList = new JList(rooms);
+		roomsList.addListSelectionListener(l);
+		
+		roomsScrollPane = new JScrollPane(roomsList);
+		
+		roomsPanel.add(roomNumbersLabel, BorderLayout.NORTH);
+		roomsPanel.add(roomsScrollPane, BorderLayout.WEST);
 	}
 	
 	private void buildCalendarPanel() {

@@ -86,7 +86,7 @@ public class GuestView extends JFrame {
 					String checkIn = checkInField.getText();
 					String checkOut = checkOutField.getText();
 					
-					while(!checkStayValidity(checkIn, checkOut)) {
+					while(!checkStayValidity(checkIn, checkOut)) { // TODO
 						//do something (ex: popup window) to tell user
 						// "No account with this ID. Please enter a valid ID."
 						
@@ -111,7 +111,7 @@ public class GuestView extends JFrame {
 			}
 		});
 		
-		try {
+		//try { // this is unnecessary
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int newRoomNumber = Integer.parseInt(roomNumberField.getText());
@@ -130,9 +130,9 @@ public class GuestView extends JFrame {
 			}
 		});
 		
-		} catch (Exception e) {
-			
-		}
+//		} catch (Exception e) {
+//			
+//		}
 		
 		reservationButtonPanel.add(makeReservationButton);
 		reservationButtonPanel.add(confirmButton);

@@ -6,8 +6,7 @@ public class Reservation {
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
 	private String roomType; // room 0-9 luxurious and 10-19 economic?
 	private int roomNumber; // goes from 0 to 19 because CS
-	private int associateAccountID;	//need to know ID who this reservation is under for printing
-									// in Manager Room Information
+	private Account reservingAccount; // TODO The account that made the reservation
 	
 	// TODO add get and set methods
 	
@@ -53,7 +52,6 @@ public class Reservation {
 //	}
 	
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String checkIn = sdf.format(checkInDate);
 		String checkOut = sdf.format(checkOutDate);
 		int roomNum = roomNumber + 1;
