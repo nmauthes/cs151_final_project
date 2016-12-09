@@ -1,28 +1,38 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GuestView extends JFrame {
-	private final int WIDTH = 640;
-	private final int HEIGHT = 480;
+	private final int WIDTH = 800;
+	private final int HEIGHT = 550;
 	private final int TEXT_AREA_WIDTH = 20;
 	private final int TEXT_AREA_HEIGHT = 30;
+	private final int ROOMS_NUMBER_OF_ROWS = 5;
 	private final int FIELD_WIDTH = 5;
+	private final int ROOMS_CELL_HEIGHT = 10;
 	
 	private ReservationSystem model;
 	private Account activeAccount;
 	private boolean[] currentlyOccupiedRooms;
 	private String currentCheckInDate, currentCheckOutDate;
 	
-	private JButton makeReservationButton, confirmButton;
+	private JButton makeReservationButton, confirmButton, cancelReservationButton;
 	private JTabbedPane guestTabs;
-	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel;
-	private JTextArea availableRoomsArea;
+	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel, roomsInfoPanel;
+	private JTextArea availableRoomsArea, roomsInfoArea;
 	private JTextField roomNumberField, checkInField, checkOutField, roomTypeField;
-	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel;
+	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel, allReservationsLabel;
+	private JScrollPane roomsScrollPane;
+	private JTable roomsTable;
+	private DefaultTableModel roomsModel;
+	
+	int selectedRoomsRow, selectedCalendarRow, selectedCalendarColumn;
 
 	public GuestView(ReservationSystem model) throws Exception {
 		this.model = model;
@@ -50,6 +60,19 @@ public class GuestView extends JFrame {
 		checkInField = new JTextField(FIELD_WIDTH);
 		checkOutField = new JTextField(FIELD_WIDTH);
 		roomTypeField = new JTextField(FIELD_WIDTH); //TODO combo box?
+		
+		viewCancelPanel = new JPanel(new BorderLayout()); // adds components of rooms panel
+		
+		buildRoomsTableModel();	//flo
+		buildRoomsTablePanel();	//flo
+		
+		roomsInfoPanel = new JPanel(new BorderLayout());
+		
+		roomsInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
+		cancelReservationButton = new JButton("Cancel selected reservation");
+		roomsInfoPanel.add(roomsInfoArea, BorderLayout.EAST);
+		roomsInfoPanel.add(cancelReservationButton, BorderLayout.SOUTH);
+		viewCancelPanel.add(roomsInfoPanel);
 		
 		makeReservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,7 +141,7 @@ public class GuestView extends JFrame {
 		roomNumberPanel.add(roomNumberField);
 		reservationPanel.add(roomNumberPanel, BorderLayout.EAST);
 		
-		viewCancelPanel = new JPanel(new BorderLayout());
+//		viewCancelPanel = new JPanel(new BorderLayout());
 		
 		guestTabs.addTab("New reservation", reservationPanel);
 		guestTabs.addTab("View/Cancel", viewCancelPanel);
@@ -127,6 +150,49 @@ public class GuestView extends JFrame {
 		
 		setLocationRelativeTo(null);
 		//setVisible(true);
+	}
+	
+	//flo
+	private void buildRoomsTablePanel() {
+		allReservationsLabel = new JLabel("All reservations");
+		
+		roomsScrollPane = new JScrollPane(roomsTable);
+		
+		viewCancelPanel.add(allReservationsLabel, BorderLayout.NORTH);
+		viewCancelPanel.add(roomsScrollPane, BorderLayout.WEST);
+	}
+	
+	//flo
+	private void buildRoomsTableModel() { //TODO
+		MouseAdapter m = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				selectedRoomsRow = roomsTable.getSelectedRow();
+				
+				Reservation toBeCancelled = (Reservation) roomsTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
+			}
+		};
+		
+		roomsModel = new DefaultTableModel(buildRoomsArray(), null);
+		roomsTable = new JTable(roomsModel) {
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		};
+		roomsTable.setRowHeight(ROOMS_CELL_HEIGHT);
+		roomsTable.setCellSelectionEnabled(true);
+		roomsTable.addMouseListener(m);
+	}
+	
+	//flo
+	private Reservation[][] buildRoomsArray() {
+		ArrayList<Reservation> allReservations = model.getAllReservations();
+		Reservation[][] temp = new Reservation[ROOMS_NUMBER_OF_ROWS][2];
+		
+		for(int i = 0; i < allReservations.size(); i++) {
+			temp[i][1] = allReservations.get(i);
+		}
+		
+		return temp;
 	}
 	
 	// input validation for checkIn and checkOut dates
@@ -188,101 +254,4 @@ public class GuestView extends JFrame {
 		return roomsList;
 	}
 	
-	/*
-	 * TODO
-	 * buttons needed: "Sign In" button, "Sign Up" button
-	 * "Sign Up" button pressed --> calls this GuestView's signUpDisplay()
-	 * "Sign In" button pressed --> calls this GuestView's signInDisplay()
-	 */
-	public void initialDisplay() {
-		
-	}
-	
-	/*
-	 * TODO
-	 * needs "Name" textfield, "Make Account" button
-	 * Store entered name in variable to pass to MakeAccount(name)
-	 * "Make Account" button pressed --> calls Model's makeAccount(name)
-	 */
-	public void signUpDisplay() {
-		
-	}
-	
-	/*
-	 * TODO
-	 * needs "User ID" textfield, "Login" button
-	 * "Login" button pressed --> uses while button to does input validation of ID using Model's checkValidID(enteredID)
-	 * if ID is valid, Model will set Model's currentAccount to account with enteredID
-	 * if ID is valid --> call this GuestView's reservationDisplay()
-	 * 
-	 */
-	public void signInDisplay() {
-		
-		/*
-		 *  Use while loop for input validation. Something like this:
-		 *  while( ! model.checkValidID(enteredID) {
-		 *  	do something (ex: popup window) to tell user
-		 *  	"No account with this ID. Please enter a valid ID."
-		 *  }
-		 */
-	}
-	
-	/*
-	 * TODO
-	 * needs "Make Reservation" button, "View/Cancel Reservation" button
-	 * "Make Reservation" button --> call's this GuestView's makeReservationDisplay()
-	 * "View/Cancel Reservation" button --> call's this GuestView's viewCancelDisplay()
-	 */
-	public void reservationDisplay() {
-		
-	}
-	
-	/*
-	 * TODO
-	 * 
-	 * 
-	 */
-	public void makeReservationDisplay() {
-		
-	}
-	
-	/*
-	 * TODO
-	 * This method display's the user's current reservations. Each displayed reservation must be
-	 * selectable (so that more than one can be selected and cancelled at the same time)
-	 * Use Model's getUsersReservations() to get ArrayList<Reservation> of currentAccount's reservations.
-	 * 
-	 * needs "Back to Main Menu" button, "Back to Reservation Window" button, "Cancel Selected Reservations"
-	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
-	 * "Back to Reservation Window" button pressed --> calls this GuestView's reservationDisplay()
-	 * "Cancel Selected Reservations" button pressed --> calls Model's cancelReservations(ArrayList<Reservation> cancellations) 
-	 * 		^need to pass parameter to cancelReservations() to indicate which reservations to cancel
-	 * 		^find best way to pass this information
-	 * 
-	 * After Model's cancelReservations method called, call this GuestView's successfullyCancelledDisplay()
-	 */
-	public void viewCancelDisplay() {
-		
-	}
-	
-	/*
-	 * TODO
-	 * need "Back to Main Menu" button
-	 * Display "Successfully Cancelled Selected Reservations"
-	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
-	 */
-	public void successfullyCancelledDisplay() {
-		
-	}
-	
-	
-	/*
-	 * TODO
-	 * Displays User's new ID
-	 * needs "Back to Main Menu" button
-	 * "Back to Main Menu" button pressed --> calls Model's mainMenu()
-	 */
-	public static void accountMadeDisplay(int ID) {
-		
-	}
 }
