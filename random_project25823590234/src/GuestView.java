@@ -208,8 +208,8 @@ public class GuestView extends JFrame {
 //			}
 //		});
 		
-		viewCancelPanel.add(cancelReservationButton, BorderLayout.SOUTH);
-		viewCancelPanel.add(cancelPanel);
+//		viewCancelPanel.add(cancelReservationButton, BorderLayout.SOUTH);
+//		viewCancelPanel.add(cancelPanel); // TODO fix throwing null pointer exception
 
 	}
 	
