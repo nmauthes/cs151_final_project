@@ -4,16 +4,15 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class ManagerView extends JFrame {
-	private final int WIDTH = 800;
-	private final int HEIGHT = 600;
-	private final int TEXT_AREA_WIDTH = 20;
-	private final int TEXT_AREA_HEIGHT = 30;
+	private final int WIDTH = 925;
+	private final int HEIGHT = 575;
+	private final int TEXT_AREA_WIDTH = 25;
+	private final int TEXT_AREA_HEIGHT = 40;
 	private final int CALENDAR_CELL_HEIGHT = 50;
-	private final int ROOMS_CELL_HEIGHT = 10;
-	private final int ROOMS_NUMBER_OF_ROWS = 5;
 	private final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	private final String[] DAYS = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	private final int DAYS_PER_WEEK = 7;
@@ -27,7 +26,6 @@ public class ManagerView extends JFrame {
 	private JScrollPane calendarScrollPane, roomsScrollPane;
 	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel, roomsInfoPanel;
 	private DefaultTableModel calendarModel;
-	private DefaultListModel<Integer> roomsModel;
 	private JTable calendarTable;
 	private JList<Integer> roomsList;
 	private JTextArea calendarInfoArea, roomsInfoArea;
@@ -97,7 +95,7 @@ public class ManagerView extends JFrame {
 				
 				String list = "";
 				for(Reservation r : reservations) {
-					list += r.toString();
+					list += r.toString() + "\n";
 				}
 				
 				roomsInfoArea.setText(list);
@@ -106,7 +104,7 @@ public class ManagerView extends JFrame {
 		
 		Integer[] rooms = new Integer[ReservationSystem.NUMBER_OF_ROOMS];
 		for(int i = 0; i < rooms.length; i++) {
-			rooms[i] = i;
+			rooms[i] = i + 1;
 		}
 		
 		roomsList = new JList(rooms);
@@ -166,6 +164,16 @@ public class ManagerView extends JFrame {
 				
 				int day = (int) calendarTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
 				model.goToDate(model.getCalendar().get(Calendar.MONTH), day, model.getCalendar().get(Calendar.YEAR));
+				
+				Date currentDate = model.getCalendar().getTime();
+				ArrayList<Reservation> reservations = model.getReservationsByDate(currentDate);
+				
+				String list = "";
+				for(Reservation r : reservations) {
+					list += r.toString() + "\n";
+				}
+				
+				calendarInfoArea.setText(list);
 			}
 		};
 		

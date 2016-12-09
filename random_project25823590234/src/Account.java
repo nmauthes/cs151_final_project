@@ -47,7 +47,7 @@ public class Account {
 	}
 	
 	public String toString() {
-		return "Name: " + name + " ID: " + id; // TODO add more info
+		return "| Name: " + name + " | ID: " + id + " |"; // TODO add more info
 	}
 	
 	public String[] getPrintableReservations() {

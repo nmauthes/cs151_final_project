@@ -10,15 +10,17 @@ public class HotelTester {
 		
 		//tests
 		Account a = new Account("Account a");
-		Reservation r;
+		Reservation r1, r2;
 		try {
-			r = new Reservation("12/15/2016", "12/20/2016", "L", 1);
-			a.addReservation(r);
+			r1 = new Reservation("12/15/2016", "12/20/2016", "L", 1);
+			r2 = new Reservation("12/25/2016", "12/30/2016", "E", 1);
+			a.addReservation(r1);
+			a.addReservation(r2);
 			rs.addAccount(a);
 		}
 		catch(Exception e) {}
 		
-		System.out.println(rs.getAccounts());
+		System.out.println(rs.getAccounts()); // for testing
 		
 		buildLoginFrame(rs, g, m);
 	}

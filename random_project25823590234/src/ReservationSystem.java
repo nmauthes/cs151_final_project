@@ -86,6 +86,19 @@ public class ReservationSystem { // model
 		return temp;
 	}
 	
+	public ArrayList<Reservation> getReservationsByDate(Date date) { // gets the reservations the current date falls between
+		ArrayList<Reservation> temp = new ArrayList<>();
+		
+		for(Account a : accounts) {
+			for(Reservation r : a.getReservations()) {
+				if(date.compareTo(r.getCheckInDate()) >= 0 && date.compareTo(r.getCheckOutDate()) <= 0)
+					temp.add(r);
+			}
+		}
+		
+		return temp;
+	}
+	
 	// Collects and returns all reservations
 	
 	public ArrayList<Reservation> getAllReservations() {
@@ -99,6 +112,8 @@ public class ReservationSystem { // model
 		
 		return temp;
 	}
+	
+	
 	
 	/**
 	 * Sets the calendar to the current date.

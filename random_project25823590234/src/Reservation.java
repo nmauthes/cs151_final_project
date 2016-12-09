@@ -13,14 +13,6 @@ public class Reservation {
 	public Date getCheckInDate() { return checkInDate; }
 	public Date getCheckOutDate() { return checkOutDate; }
 	public int getRoomNumber() { return roomNumber; }
-	/*
-	 * Returns the actual representation of the room, Ex room 0 --> room 1 in real life
-	 */
-	public String getRealRoomNumber()
-	{
-		int realRoom = this.getRoomNumber() + 1;
-		return Integer.toString(realRoom);
-	}
 	
 	public Reservation(String checkInDate, String checkOutDate, String roomType, int roomNumber) throws Exception {
 		sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -29,6 +21,15 @@ public class Reservation {
 		this.checkOutDate = sdf.parse(checkOutDate);
 		this.roomType = roomType;
 		this.roomNumber = roomNumber;
+	}
+	
+	/*
+	 * Returns the actual representation of the room, Ex room 0 --> room 1 in real life
+	 */
+	public String getRealRoomNumber()
+	{
+		int realRoom = this.getRoomNumber() + 1;
+		return Integer.toString(realRoom);
 	}
 	
 	public boolean checkConflict(Date otherCheckIn, Date otherCheckOut) {
@@ -56,7 +57,7 @@ public class Reservation {
 		String checkOut = sdf.format(checkOutDate);
 		int roomNum = roomNumber + 1;
 		
-		return "Check In Date: " + checkIn + " Check Out Date: " + checkOut + " Room Number: " + roomNum;
+		return "| Check In Date: " + checkIn + " | Check Out Date: " + checkOut + " | Room Number: " + roomNum + " |";
 		// TODO
 	}
 }
