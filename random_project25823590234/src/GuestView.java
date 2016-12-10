@@ -237,7 +237,7 @@ public class GuestView extends JFrame {
 		
 		for(int i = startingIndex; i < endingIndex; i++) {
 			if(!rooms[i]) {
-				roomsList += "Room " + i + "\n";
+				roomsList += "Room " + (i + 1) + "\n";
 			}
 		}
 		
