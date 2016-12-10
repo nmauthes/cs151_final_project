@@ -126,6 +126,7 @@ public class GuestView extends JFrame {
 						        choices, // Array of choices
 						        choices[1]); // Initial choice
 						Receipt receipt;
+						// User decides which Receipt they would like and it will print the corresponding choice
 						if (input.equals("Simple Receipt"))
 						{
 							receipt = new SimpleReceipt();
