@@ -33,15 +33,7 @@ public class ReservationSystem { // model
 		accounts.add(account);
 	}
 	
-	public Account getAccountByID(int id) {
-		for(Account a : accounts) {
-			if(a.getID() == id)
-				return a;
-		}
-		return null;
-	}
-	
-	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate, String roomType) throws Exception {
+	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate) throws Exception {
 		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
 	
 		Date checkIn = sdf.parse(checkInDate);
@@ -61,7 +53,13 @@ public class ReservationSystem { // model
 		
 		// 0-9 luxurious and 10 - 19 economic
 		
+		System.out.println(Arrays.toString(availableRooms));
+		
 		return availableRooms; // use to check what's available
+	}
+	
+	public Account getAccountByID(int id) {
+		return accounts.get(id);
 	}
 	
 	public void findAndRemoveReservation(Reservation toRemove) { // finds account with specified reservation and removes
@@ -113,7 +111,33 @@ public class ReservationSystem { // model
 		return temp;
 	}
 	
-	
+	// input validation for checkIn and checkOut dates
+	public boolean checkStayValidity(String checkIn, String checkOut) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Date checkInDate = null;
+		Date checkOutDate = null;
+		
+		try {
+			checkInDate = sdf.parse(checkIn);
+			checkOutDate = sdf.parse(checkOut);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Date today = new Date();
+		
+		//checks not before current date
+		if(today.before(checkInDate)||today.before(checkOutDate))
+			return false;
+		
+		//checks less than 60 days
+		int diffInDays = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24) );
+		
+		if(diffInDays >= 60)
+			return false;
+		
+		return true;
+	}
 	
 	/**
 	 * Sets the calendar to the current date.

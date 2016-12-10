@@ -31,7 +31,6 @@ public class ManagerView extends JFrame {
 	private JTextArea calendarInfoArea, roomsInfoArea;
 	
 	int selectedCalendarRow, selectedCalendarColumn;
-	int selectedRoomsRow;
 
 	public ManagerView(ReservationSystem model) {
 		this.model = model;

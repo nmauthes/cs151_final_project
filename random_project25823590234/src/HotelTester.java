@@ -56,18 +56,25 @@ public class HotelTester {
 				String[] buttons = { "Sign up", "Sign in" };
 				int choice = JOptionPane.showOptionDialog(loginFrame, fields, "Guest login", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
 				
-					if(choice == 0) { // add new user
-						String name = signupField.getText();
-						Account newAccount = new Account(name);
-						rs.addAccount(newAccount);
-						g.setActiveAccount(newAccount);
+				if(choice == 0) { // add new user
+					String name = signupField.getText();
+					Account newAccount = new Account(name);
+					rs.addAccount(newAccount);
+					g.setActiveAccount(newAccount);
+					g.setVisible(true);
+				}
+				else {
+					try {
+						int id = Integer.parseInt(signupField.getText());
+						g.setActiveAccount(id);
+						g.setVisible(true);
 					}
-					else {
-						// find user by id
+					catch(Exception ex) {
+						JOptionPane.showMessageDialog(loginFrame, "Please enter a valid ID", "Error", JOptionPane.ERROR_MESSAGE);
 					}
-						
+				}	
 				
-				g.setVisible(true);
+				signupField.setText("");
 				m.dispose();
 			}
 		});

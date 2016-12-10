@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays; // for testing
 
 public class GuestView extends JFrame {
 	private final int WIDTH = 800;
@@ -27,10 +28,11 @@ public class GuestView extends JFrame {
 	private JTabbedPane guestTabs;
 	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel, cancelPanel;
 	private JTextArea availableRoomsArea, cancelArea;
-	private JTextField roomNumberField, checkInField, checkOutField, roomTypeField;
+	private JTextField roomNumberField, checkInField, checkOutField;
 	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel, allReservationsLabel, displayReservationsLabel;
 	private JScrollPane roomsScrollPane;
 	private JTable roomsTable;
+	private JComboBox roomTypeComboBox;
 	private DefaultTableModel roomsModel;
 	
 	int selectedRoomsRow, selectedCalendarRow, selectedCalendarColumn;
@@ -42,6 +44,8 @@ public class GuestView extends JFrame {
 		setLayout(new FlowLayout());
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
+		
+		// TODO add changelistener to update text areas
 		
 		guestTabs = new JTabbedPane();
 		
@@ -60,7 +64,8 @@ public class GuestView extends JFrame {
 		
 		checkInField = new JTextField(FIELD_WIDTH);
 		checkOutField = new JTextField(FIELD_WIDTH);
-		roomTypeField = new JTextField(FIELD_WIDTH); //TODO combo box?
+		String[] comboOptions = { "Luxurious", "Economic" };
+		roomTypeComboBox = new JComboBox(comboOptions);
 		
 		viewCancelPanel = new JPanel(new BorderLayout()); // adds components of rooms panel
 		
@@ -76,7 +81,7 @@ public class GuestView extends JFrame {
 		
 		makeReservationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] message = {"Enter check-in date:", checkInField, "Enter check-out date:", checkOutField, "Enter room type:", roomTypeField};
+				Object[] message = {"Enter check-in date:", checkInField, "Enter check-out date:", checkOutField, "Enter room type:", roomTypeComboBox};
 				
 				int choice = JOptionPane.showConfirmDialog(GuestView.this, message, "Enter dates", JOptionPane.OK_CANCEL_OPTION);
 				
@@ -85,18 +90,14 @@ public class GuestView extends JFrame {
 					
 					String checkIn = checkInField.getText();
 					String checkOut = checkOutField.getText();
-					
-					while(!checkStayValidity(checkIn, checkOut)) { // TODO
-						//do something (ex: popup window) to tell user
-						// "No account with this ID. Please enter a valid ID."
+					String roomType = (roomTypeComboBox.getSelectedIndex() == 0) ? "L" : "E";
 						
-						checkIn = checkInField.getText();
-						checkOut = checkOutField.getText();
-					}
-							
 					try {
-						rooms = model.getOccupiedRooms(checkIn, checkOut, "test"); //TODO
-						availableRoomsArea.setText(printAvailableRooms(rooms, "L"));
+						if(model.checkStayValidity(checkIn, checkOut))
+								throw new Exception();
+								
+						rooms = model.getOccupiedRooms(checkIn, checkOut);
+						availableRoomsArea.setText(printAvailableRooms(rooms, roomType));
 						currentlyOccupiedRooms = rooms;
 						currentCheckInDate = checkIn;
 						currentCheckOutDate = checkOut;
@@ -185,7 +186,7 @@ public class GuestView extends JFrame {
 			viewReservationsModel.addElement(viewReservationsAL.get(i));
 		}
 
-		//TODO set list to allow multiple selections
+		//TODO set list to allow multiple selections // get it working first
 		
 		JList<Reservation> viewReservationsList = new JList<Reservation>(viewReservationsModel);
 
@@ -246,38 +247,14 @@ public class GuestView extends JFrame {
 		return temp;
 	}
 	
-	// input validation for checkIn and checkOut dates
-	public boolean checkStayValidity(String checkIn, String checkOut) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		Date checkInDate = null;
-		Date checkOutDate = null;
-		
-		try {
-			checkInDate = sdf.parse(checkIn);
-			checkOutDate = sdf.parse(checkOut);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Date today = new Date();
-		
-		//checks not before current date
-		if(today.before(checkInDate)||today.before(checkOutDate))
-			return false;
-		
-		//checks less than 60 days
-		int diffInDays = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24) );
-		
-		if(diffInDays >= 60)
-			return false;
-		
-		return true;
-	}
-	
 	public void setActiveAccount(Account account) {
 		activeAccount = account;
-		availableRoomsArea.setText("Current user: " + account.getName());
+		availableRoomsArea.setText("Current user: " + activeAccount.getName());
+	}
+	
+	public void setActiveAccount(int id) {
+		activeAccount = model.getAccounts().get(id);
+		availableRoomsArea.setText("Current user: " + activeAccount.getName());
 	}
 	
 	public String printAvailableRooms(boolean[] rooms, String roomType) {

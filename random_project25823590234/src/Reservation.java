@@ -6,7 +6,7 @@ public class Reservation {
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
 	private String roomType; // room 0-9 luxurious and 10-19 economic?
 	private int roomNumber; // goes from 0 to 19 because CS
-	private Account reservingAccount; // TODO The account that made the reservation
+	private Account reservingAccount;
 	
 	// TODO add get and set methods
 	
@@ -20,7 +20,17 @@ public class Reservation {
 		this.checkInDate = sdf.parse(checkInDate);
 		this.checkOutDate = sdf.parse(checkOutDate);
 		this.roomType = roomType;
-		this.roomNumber = roomNumber;
+		this.roomNumber = --roomNumber; // for proper indexing
+	}
+	
+	public Reservation(String checkInDate, String checkOutDate, String roomType, int roomNumber, Account reservingAccount) throws Exception {
+		sdf = new SimpleDateFormat("MM/dd/yyyy");
+		
+		this.checkInDate = sdf.parse(checkInDate);
+		this.checkOutDate = sdf.parse(checkOutDate);
+		this.roomType = roomType;
+		this.roomNumber = --roomNumber; // for proper indexing
+		this.reservingAccount = reservingAccount;
 	}
 	
 	/*
@@ -55,9 +65,8 @@ public class Reservation {
 	public String toString() {
 		String checkIn = sdf.format(checkInDate);
 		String checkOut = sdf.format(checkOutDate);
-		int roomNum = roomNumber + 1;
 		
-		return "| Check In Date: " + checkIn + " | Check Out Date: " + checkOut + " | Room Number: " + roomNum + " |";
+		return "| Check In Date: " + checkIn + " | Check Out Date: " + checkOut + " | Room Number: " + getRealRoomNumber() + " |";
 		// TODO
 	}
 }
