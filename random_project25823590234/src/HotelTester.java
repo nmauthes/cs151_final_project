@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * @author Brogrammers
+ * 
+ * Main class for the hotel system. Instantiates the model and view classes. Also handles the initial login.
+ *
+ */
 public class HotelTester {	
 	public static void main(String[] args) throws Exception {
 		ReservationSystem rs = new ReservationSystem();

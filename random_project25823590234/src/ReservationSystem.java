@@ -8,6 +8,13 @@ import java.io.*;
 
 import java.util.Arrays; // for testing
 
+/**
+ * @author Brogrammers
+ * 
+ * The model class of the hotel system. Provides methods for adding and removing accounts to the system, provides
+ * calendar functionality, and functionality for alerting the view when a change is made.
+ *
+ */
 public class ReservationSystem implements java.io.Serializable { // model
 	public static final int NUMBER_OF_ROOMS = 20;
 	
@@ -30,11 +37,25 @@ public class ReservationSystem implements java.io.Serializable { // model
 		initCalendar();
 	}
 	
+	/**
+	 * Adds a new account to the system.
+	 * 
+	 * @param account The new account to be added.
+	 */
 	public void addAccount(Account account) {
 		accounts.add(account);
 		changeMade();
 	}
 	
+	/**
+	 * Returns an array representing the available rooms during the specified time interval.
+	 * True means a room is occupied, false means available.
+	 * 
+	 * @param checkInDate The start time of the stay
+	 * @param checkOutDate The end time of the stay
+	 * @return boolean[] representing available rooms
+	 * @throws Exception If unable to parse date
+	 */
 	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate) throws Exception {
 		boolean[] availableRooms = new boolean[NUMBER_OF_ROOMS]; // mark the conflicting rooms as false
 	
@@ -58,10 +79,21 @@ public class ReservationSystem implements java.io.Serializable { // model
 		return availableRooms; // use to check what's available
 	}
 	
+	/**
+	 * Gets the account associated with the specified ID number.
+	 * 
+	 * @param id Specified ID
+	 * @return Account with same ID
+	 */
 	public Account getAccountByID(int id) {
 		return accounts.get(id);
 	}
 	
+	/**
+	 * Searches the list of accounts and removes the reservation specified.
+	 * 
+	 * @param toRemove The reservation to be removed
+	 */
 	public void findAndRemoveReservation(Reservation toRemove) { // finds account with specified reservation and removes
 		for(Account a : accounts) {
 			for(Reservation r : a.getReservations()) {
@@ -69,8 +101,15 @@ public class ReservationSystem implements java.io.Serializable { // model
 					a.removeReservation(r);
 			}
 		}
+		changeMade();
 	}
 	
+	/**
+	 * Gets all reservations made for a particular room.
+	 * 
+	 * @param number Specified room number
+	 * @return List of all reservations made in this room
+	 */
 	public ArrayList<Reservation> getReservationsByRoomNumber(int number) { // collects all reservations associated with specified room number
 		ArrayList<Reservation> temp = new ArrayList<>();
 		
@@ -84,6 +123,12 @@ public class ReservationSystem implements java.io.Serializable { // model
 		return temp;
 	}
 	
+	/**
+	 * Gets all reservations that occur at the same time as the specified date.
+	 * 
+	 * @param date Specified date.
+	 * @return List of all rooms occurring at the same time as the date
+	 */
 	public ArrayList<Reservation> getReservationsByDate(Date date) { // gets the reservations the current date falls between
 		ArrayList<Reservation> temp = new ArrayList<>();
 		
@@ -97,8 +142,12 @@ public class ReservationSystem implements java.io.Serializable { // model
 		return temp;
 	}
 	
-	// Collects and returns all reservations
 	
+	/**
+	 * Collects and returns a list of all reservations in the system.
+	 * 
+	 * @return List of reservations
+	 */
 	public ArrayList<Reservation> getAllReservations() {
 		ArrayList<Reservation> temp = new ArrayList<>();
 	
@@ -111,7 +160,17 @@ public class ReservationSystem implements java.io.Serializable { // model
 		return temp;
 	}
 	
-	// input validation for checkIn and checkOut dates
+	
+	/**
+	 * Checks to see if a stay meets the specified requirements:
+	 * 
+	 * Stay duration < 60 days
+	 * Stay is not before current date
+	 * 
+	 * @param checkIn Start date of the stay
+	 * @param checkOut End date of the stay
+	 * @return True if stay meets the requirements false otherwise
+	 */
 	public boolean checkStayValidity(String checkIn, String checkOut) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Date checkInDate = null;
@@ -190,30 +249,22 @@ public class ReservationSystem implements java.io.Serializable { // model
 		changeMade();
 	}
 	
+	/**
+	 * Moves the calendar forward by one year
+	 */
 	public void nextYear() {
 		calendar.add(Calendar.YEAR, 1);
 		selectedDate = calendar.getTime();
 		changeMade();
 	}
 	
+	/**
+	 * Moves the calendar backward by one year
+	 */
 	public void previousYear() {
 		calendar.add(Calendar.YEAR, -1);
 		selectedDate = calendar.getTime();
 		changeMade();
-	}
-	
-	public int getDaysBetween(String d1, String d2) {
-		Calendar temp = Calendar.getInstance();
-		
-		int[] d1Parsed = parseDate(d1);
-		int[] d2Parsed = parseDate(d2);
-		
-		temp.set(d1Parsed[2], d1Parsed[0], d1Parsed[1]);
-		Date date1 = temp.getTime();
-		temp.set(d2Parsed[2], d2Parsed[0], d2Parsed[1]);
-		Date date2 = temp.getTime();
-	
-		return (int) TimeUnit.MILLISECONDS.toDays(Math.abs(date2.getTime() - date1.getTime()));
 	}
 	
 	/**

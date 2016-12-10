@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * @author Brogrammers
+ *
+ * Represents a user account for the hotel system. Provides fields for name and generates an ID number.
+ * Also contains a list of all the reservations made by the account.
+ *
+ */
 public class Account implements java.io.Serializable {
 	private static int nextID = 0;								//used to generate ID
 	private int id;
@@ -32,21 +39,33 @@ public class Account implements java.io.Serializable {
 		
 	}
 	
-	//ID's will be assigned 0,1,2,3 and so on. This will be convenient bc an account's id will
-	//also correspond to the index used to access it in the accounts arrayList
+	/**
+	 * Generates an ID for the account
+	 */
 	public void generateID() {
 		id = nextID;
 		nextID++;
 	}
 	
+	/**
+	 * Adds a new reservation the list of reservations.
+	 * 
+	 * @param r The new reservation
+	 */
 	public void addReservation(Reservation r) {
 		reservations.add(r);
 	}
 	
+	/**
+	 * Removes a reservation from the list of reservations.
+	 * 
+	 * @param r The reservation to remove.
+	 */
 	public void removeReservation(Reservation r) {
 		reservations.remove(r);
 	}
 	
+	//TODO comment this
 	public void removeReservations(int[] removeIndices) {
 		int j = 0;
 		

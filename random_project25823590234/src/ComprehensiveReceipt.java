@@ -1,4 +1,10 @@
 
+/**
+ * @author Brogrammers
+ * 
+ * Concrete strategy which creates a receipt that includes name, id, all reservations and total cost
+ *
+ */
 public class ComprehensiveReceipt implements Receipt 
 {
 	public String showReceipt(Account account)

@@ -7,6 +7,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 
+/**
+ * @author Brogrammers
+ * 
+ * View class for the manager portion of the project. Creates and provides a clickable calendar for viewing reserved rooms and 
+ * a rooms view that allows manager to view reservations by room number.
+ *
+ */
 public class ManagerView extends JFrame {
 	private final int WIDTH = 925;
 	private final int HEIGHT = 575;

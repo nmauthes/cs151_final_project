@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Brogrammers
+ *
+ * View class for the guest view portion of the program. Creates the make reservation and view cancel panels
+ * and provides controllers for making, viewing and cancelling guest reservations.
+ */
 public class GuestView extends JFrame {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 550;
@@ -214,17 +220,27 @@ public class GuestView extends JFrame {
 //		return temp;
 //	}
 	
+	/**
+	 * Sets the active account once a user signs up.
+	 * 
+	 * @param account The currently focused account
+	 */
 	public void setActiveAccount(Account account) {
 		activeAccount = account;
 		availableRoomsArea.setText("Current user: " + activeAccount.getName());
 	}
 	
+	/**
+	 * Sets the active account by ID once a user signs in.
+	 * 
+	 * @param account The currently focused account
+	 */
 	public void setActiveAccount(int id) {
 		activeAccount = model.getAccounts().get(id);
 		availableRoomsArea.setText("Current user: " + activeAccount.getName());
 	}
 	
-	public String printAvailableRooms(boolean[] rooms, String roomType) {
+	private String printAvailableRooms(boolean[] rooms, String roomType) {
 		String roomsList = "";
 		int startingIndex, endingIndex;
 		

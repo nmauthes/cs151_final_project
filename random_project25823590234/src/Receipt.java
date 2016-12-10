@@ -1,8 +1,19 @@
 
+/**
+ * @author Brogrammers
+ * 
+ * Interface representing a receipt for a transaction made using the hotel system. (Strategy)
+ * Context is GUI pop up.
+ *
+ */
 public interface Receipt 
 {
-	/*
-	 * Abstract method will return the receipt given the correct Username and ID in the Model
+	
+	/**
+	 * Method for displaying the receipt.
+	 * 
+	 * @param account Specified account
+	 * @return Receipt as string
 	 */
 	public String showReceipt(Account account);
 	
