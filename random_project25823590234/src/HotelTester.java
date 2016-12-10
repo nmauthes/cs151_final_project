@@ -63,7 +63,7 @@ public class HotelTester {
 						g.setActiveAccount(newAccount);
 					}
 					else {
-						// find user by id
+						// find user by id	//TODO needs to check Input Validity and make sure there is an account with entered ID
 					}
 						
 				
