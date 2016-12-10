@@ -16,8 +16,9 @@ public class Account implements java.io.Serializable {
 		reservations = new ArrayList<>();
 		generateID();
 	}
-	/*
+	/**
 	 * Fetches the real room numbers of all rooms reserved and returns a String representation
+	 * @return the list of rooms reserved
 	 */
 	public String getRoomsReserved()
 	{
@@ -55,6 +56,27 @@ public class Account implements java.io.Serializable {
 				j++;
 			}
 		}
+	}
+	/**
+	 * Calculates the total amount owed by iterating thru the reservations arrayList to check for room type and charging by type
+	 * @return the total balance
+	 */
+	public int getTotalBalance()
+	{
+		int totalBalance = 0;
+		for (Reservation reservation : reservations) // iterates through the entire reservations arraylist
+		{
+			if (reservation.getRoomType() == "L") // Checks if the room type is of type Luxury
+			{
+				totalBalance =+ 200;
+			}
+			if (reservation.getRoomType() == "E") // Checks if the room type is of type Economic
+			{
+				totalBalance =+ 80;
+			}
+			
+		}
+		return totalBalance;
 	}
 	
 	public String toString() {

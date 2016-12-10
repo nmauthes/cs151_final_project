@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 public class Reservation implements java.io.Serializable {
 	private Date checkInDate, checkOutDate;
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
-	private String roomType; // room 0-9 luxurious and 10-19 economic?
+	private String roomType; // L denotes Luxury room, E denotes economic room
 	private int roomNumber; // goes from 0 to 19 because CS
 	private Account reservingAccount;
 	
@@ -13,6 +13,7 @@ public class Reservation implements java.io.Serializable {
 	public Date getCheckInDate() { return checkInDate; }
 	public Date getCheckOutDate() { return checkOutDate; }
 	public int getRoomNumber() { return roomNumber; }
+	public String getRoomType(){return roomType;}
 	
 	public Reservation(String checkInDate, String checkOutDate, String roomType, int roomNumber) throws Exception {
 		sdf = new SimpleDateFormat("MM/dd/yyyy");
