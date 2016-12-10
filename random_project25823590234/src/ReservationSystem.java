@@ -32,6 +32,7 @@ public class ReservationSystem implements java.io.Serializable { // model
 	
 	public void addAccount(Account account) {
 		accounts.add(account);
+		changeMade();
 	}
 	
 	public boolean[] getOccupiedRooms(String checkInDate, String checkOutDate) throws Exception {
