@@ -4,10 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
+import java.io.*;
 
 import java.util.Arrays; // for testing
 
-public class ReservationSystem { // model
+public class ReservationSystem implements java.io.Serializable { // model
 	public static final int NUMBER_OF_ROOMS = 20;
 	
 	private ArrayList<Account> accounts;
@@ -255,10 +256,46 @@ public class ReservationSystem { // model
 		currentDate = calendar.getTime();
 		selectedDate = currentDate;
 	}
-	
-	
-	
-	//TODO load function
-	//TODO save function
+	/**
+	 * load method will deserialize the file reservation.ser and will load the data into the Model's arraylist of accounts
+	 * 
+	 */
+	public void load()
+	{
+		try {
+	         FileInputStream fileIn = new FileInputStream("reservation.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	          this.accounts = (ArrayList<Account>) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         System.out.printf("Data has been loaded. \n");
+	      }catch(IOException i) {
+	         i.printStackTrace();
+	         return;
+	      }catch(ClassNotFoundException c) {
+	         System.out.println("Reservation data not found.");
+	         c.printStackTrace();
+	         return;
+	      }
+	}
+	/**
+	 * The save method will serialize the data of the Model (the data is stored in the arrayList accounts)
+	 * 
+	 */
+	public void save()
+	{
+		try {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("reservation.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(this.accounts);
+	         out.close();
+	         fileOut.close();
+	         System.out.printf("Data has been saved. \n");
+	      }catch(IOException i) 
+		  {
+	         i.printStackTrace();
+	      }
+	}
 	
 }

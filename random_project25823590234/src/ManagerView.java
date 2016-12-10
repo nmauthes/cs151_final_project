@@ -22,7 +22,7 @@ public class ManagerView extends JFrame {
 	
 	private JTabbedPane managerTabs;
 	private JLabel monthAndYearLabel, roomNumbersLabel;
-	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton;
+	private JButton prevMonthButton, nextMonthButton, prevYearButton, nextYearButton, saveButton, loadButton;
 	private JScrollPane calendarScrollPane, roomsScrollPane;
 	private JPanel calendarPanel, calendarButtonPanel, calendarInfoPanel, roomsPanel, roomsInfoPanel;
 	private DefaultTableModel calendarModel;
@@ -68,6 +68,13 @@ public class ManagerView extends JFrame {
 				model.save();
 			}
 		});
+		loadButton = new JButton("Load");
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.load();
+			}
+		});
+		calendarInfoPanel.add(loadButton, BorderLayout.NORTH);
 		calendarInfoPanel.add(calendarInfoArea, BorderLayout.CENTER);
 		calendarInfoPanel.add(saveButton, BorderLayout.SOUTH);
 		calendarPanel.add(calendarInfoPanel, BorderLayout.EAST);

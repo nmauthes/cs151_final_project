@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Account {
+public class Account implements java.io.Serializable {
 	private static int nextID = 0;								//used to generate ID
 	private int id;
 	private String name;

@@ -1,7 +1,7 @@
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Reservation {
+public class Reservation implements java.io.Serializable {
 	private Date checkInDate, checkOutDate;
 	private SimpleDateFormat sdf;  // for parsing Dates from Strings
 	private String roomType; // room 0-9 luxurious and 10-19 economic?
