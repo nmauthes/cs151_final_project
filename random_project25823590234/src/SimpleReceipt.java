@@ -5,7 +5,7 @@ public class SimpleReceipt implements Receipt
 	{
 			ArrayList<String> reservedRoomList = new ArrayList<String>();
 			
-			return "User: " + account.getName() + ", ID: " + account.getID() + ", List of reserved rooms: " + account.getRoomsReserved() + ", Total Due for this Transaction: $" + account.getTotalBalance();
+			return "Simple Receipt: \n User: " + account.getName() + ", ID: " + account.getID() + ", List of reserved rooms: " + account.getRoomsReserved() + ", Total Due for this Transaction: $" + account.getTotalBalance();
 	
 	}
 }

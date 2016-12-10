@@ -110,7 +110,9 @@ public class GuestView extends JFrame {
 					try {
 						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
 						activeAccount.addReservation(r);
-						JOptionPane.showMessageDialog(GuestView.this, "Receipt goes here", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // TODO add receipt here
+						SimpleReceipt simpleReceipt = new SimpleReceipt();
+						ComprehensiveReceipt compReceipt = new ComprehensiveReceipt();
+						JOptionPane.showMessageDialog(GuestView.this, simpleReceipt.showReceipt(activeAccount) + "\n" + compReceipt.showReceipt(activeAccount), "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
 					}
 					catch(Exception ex) {
 						JOptionPane.showMessageDialog(GuestView.this, "Reservation error", "An error occurred", JOptionPane.ERROR_MESSAGE);

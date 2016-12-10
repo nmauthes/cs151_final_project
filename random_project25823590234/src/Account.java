@@ -64,7 +64,7 @@ public class Account implements java.io.Serializable {
 	public int getTotalBalance()
 	{
 		int totalBalance = 0;
-		for (Reservation reservation : reservations) // iterates through the entire reservations arraylist
+		for (Reservation reservation : this.reservations) // iterates through the entire reservations arraylist
 		{
 			if (reservation.getRoomType() == "L") // Checks if the room type is of type Luxury
 			{
