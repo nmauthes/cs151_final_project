@@ -34,11 +34,8 @@ public class GuestView extends JFrame {
 	private JPanel reservationPanel, viewCancelPanel, reservationButtonPanel, roomNumberPanel;
 	private JTextArea availableRoomsArea;
 	private JTextField roomNumberField, checkInField, checkOutField;
-	private JLabel availableRoomsLabel, roomNumberLabel, usernameLabel, allReservationsLabel, displayReservationsLabel;
-	private JScrollPane roomsScrollPane;
-	private JTable roomsTable;
+	private JLabel availableRoomsLabel, roomNumberLabel, allReservationsLabel;
 	private JComboBox<String> roomTypeComboBox;
-	private DefaultTableModel roomsModel;
 	private DefaultListModel<Reservation> viewReservationsModel;
 	private JList<Reservation> viewReservationsList;
 	
@@ -156,11 +153,14 @@ public class GuestView extends JFrame {
 		//setVisible(true);
 	}
 	
+	/**
+	 * Creates components of View/Cancel tab
+	 */
 	private void makeViewCancelTab() {
 		viewCancelPanel = 										new JPanel(new BorderLayout());
 		cancelReservationButton = 								new JButton("Cancel selected reservation");
 		allReservationsLabel = 									new JLabel("All reservations");
-		JList<Reservation> viewReservationsList = 				new JList<Reservation>(viewReservationsModel);
+		viewReservationsList = 									new JList<Reservation>(viewReservationsModel);
 		JScrollPane viewReservationsScrollPane = 				new JScrollPane(viewReservationsList);
 				
 		// When clicked, removes selected Reservations from activeAccount's Reservations		
@@ -178,6 +178,9 @@ public class GuestView extends JFrame {
 		viewCancelPanel.add(cancelReservationButton, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Updates View/Cancel Tab's Reservation List when changes made to Model
+	 */
 	public void updateViewCancelModel() {
 		
 		viewReservationsModel.clear();

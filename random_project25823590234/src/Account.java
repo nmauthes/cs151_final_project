@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  */
 public class Account implements java.io.Serializable {
-	private static int nextID = 0;								//used to generate ID
+	private static int nextID = 0;							
 	private int id;
 	private String name;
 	private ArrayList<Reservation> reservations;
@@ -23,6 +23,7 @@ public class Account implements java.io.Serializable {
 		reservations = new ArrayList<>();
 		generateID();
 	}
+	
 	/**
 	 * Fetches the real room numbers of all rooms reserved and returns a String representation
 	 * @return the list of rooms reserved
@@ -65,7 +66,11 @@ public class Account implements java.io.Serializable {
 		reservations.remove(r);
 	}
 	
-	//TODO comment this
+	/**
+	 * Removes reservations from list of reservations at indexes in removeIndices
+	 * 
+	 * @param int[] removeIndices Holds indices to remove from
+	 */
 	public void removeReservations(int[] removeIndices) {
 		
 		ArrayList<Reservation> cancelThese = new ArrayList<Reservation>();
@@ -103,13 +108,5 @@ public class Account implements java.io.Serializable {
 	
 	public String toString() {
 		return "| Name: " + name + " | ID: " + id + " |";
-	}
-	
-	//for testing purposes
-	public void printReservations() {
-		for(Reservation r : reservations) {
-			System.out.println(r);
-		}
-	}
-	
+	}	
 }
