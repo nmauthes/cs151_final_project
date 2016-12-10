@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * @author Brogrammers
@@ -47,6 +48,7 @@ public class ManagerView extends JFrame {
 				updateTableModel();
 				highlightSelectedCell();
 				updateLabels();
+				updateCalendar();
 			}
 		};
 		model.addListener(cl);
@@ -73,12 +75,13 @@ public class ManagerView extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.save();
+				JOptionPane.showMessageDialog(ManagerView.this, "Save successful", "Reservations saved", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		loadButton = new JButton("Load");
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.load();
+					model.load();
 			}
 		});
 		calendarInfoPanel.add(loadButton, BorderLayout.NORTH);
@@ -183,15 +186,7 @@ public class ManagerView extends JFrame {
 				int day = (int) calendarTable.getValueAt(selectedCalendarRow, selectedCalendarColumn);
 				model.goToDate(model.getCalendar().get(Calendar.MONTH), day, model.getCalendar().get(Calendar.YEAR));
 				
-				Date currentDate = model.getCalendar().getTime();
-				ArrayList<Reservation> reservations = model.getReservationsByDate(currentDate);
-				
-				String list = "";
-				for(Reservation r : reservations) {
-					list += r.toString() + "\n";
-				}
-				
-				calendarInfoArea.setText(list);
+				updateCalendar();
 			}
 		};
 		
@@ -230,6 +225,18 @@ public class ManagerView extends JFrame {
 			}
 		}
 		return temp;
+	}
+	
+	private void updateCalendar() {
+		Date currentDate = model.getCalendar().getTime();
+		ArrayList<Reservation> reservations = model.getReservationsByDate(currentDate);
+		
+		String list = "";
+		for(Reservation r : reservations) {
+			list += r.toString() + "\n";
+		}
+		
+		calendarInfoArea.setText(list);
 	}
 	
 	private void updateLabels() {

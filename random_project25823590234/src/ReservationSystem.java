@@ -284,7 +284,10 @@ public class ReservationSystem implements java.io.Serializable { // model
 		return parsed;
 	}
 	
-	private void changeMade() {
+	/**
+	 * Notifies all listeners that a change has been made.
+	 */
+	public void changeMade() {
 		ChangeEvent e = new ChangeEvent(this);
 		
 		for(ChangeListener cl : listeners) {

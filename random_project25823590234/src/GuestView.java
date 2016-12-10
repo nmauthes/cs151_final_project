@@ -116,6 +116,8 @@ public class GuestView extends JFrame {
 					try {
 						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
 						activeAccount.addReservation(r);
+						model.changeMade();
+						
 						SimpleReceipt simpleReceipt = new SimpleReceipt();
 						ComprehensiveReceipt compReceipt = new ComprehensiveReceipt();
 						JOptionPane.showMessageDialog(GuestView.this, simpleReceipt.showReceipt(activeAccount) + "\n" + compReceipt.showReceipt(activeAccount), "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
@@ -125,6 +127,7 @@ public class GuestView extends JFrame {
 					}
 				}
 				availableRoomsArea.setText("");
+				roomNumberField.setText("");
 			}
 		});
 		
