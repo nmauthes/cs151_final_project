@@ -131,7 +131,8 @@ public class GuestView extends JFrame {
 							receipt = new SimpleReceipt();
 							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
 						}
-						if (input.equals("Comprehensive Receipt"))
+						else
+						//if (input.equals("Comprehensive Receipt"))
 						{
 							receipt = new ComprehensiveReceipt();
 							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
