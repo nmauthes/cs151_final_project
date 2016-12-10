@@ -46,17 +46,26 @@ public class Account {
 		reservations.remove(r);
 	}
 	
+	public void removeReservations(int[] removeIndices) {
+		int j = 0;
+		
+		for(int i = 0; i < reservations.size(); i++) {
+			if( i == j) {
+				reservations.remove(i);
+				j++;
+			}
+		}
+	}
+	
 	public String toString() {
 		return "| Name: " + name + " | ID: " + id + " |";
 	}
 	
-	public String[] getPrintableReservations() {
-		String[] viewReservations = new String[reservations.size()];
-		for(int i = 0; i < viewReservations.length; i++) {
-			viewReservations[i] = reservations.get(i).toString();
+	//for testing purposes
+	public void printReservations() {
+		for(Reservation r : reservations) {
+			System.out.println(r);
 		}
-	
-		return viewReservations;
 	}
 	
 }
