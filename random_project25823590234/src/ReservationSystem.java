@@ -55,8 +55,6 @@ public class ReservationSystem implements java.io.Serializable { // model
 		
 		// 0-9 luxurious and 10 - 19 economic
 		
-		System.out.println(Arrays.toString(availableRooms));
-		
 		return availableRooms; // use to check what's available
 	}
 	

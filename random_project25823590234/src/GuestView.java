@@ -106,7 +106,7 @@ public class GuestView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int newRoomNumber = Integer.parseInt(roomNumberField.getText());
 				if(!currentlyOccupiedRooms[newRoomNumber]) {
-					String roomType = (newRoomNumber > ReservationSystem.NUMBER_OF_ROOMS / 2) ? "L" : "E";
+					String roomType = (newRoomNumber > ReservationSystem.NUMBER_OF_ROOMS / 2) ? "E" : "L";
 					try {
 						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
 						activeAccount.addReservation(r);
