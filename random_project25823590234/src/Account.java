@@ -67,15 +67,18 @@ public class Account implements java.io.Serializable {
 	
 	//TODO comment this
 	public void removeReservations(int[] removeIndices) {
-		int j = 0;
 		
-		for(int i = 0; i < reservations.size(); i++) {
-			if( i == j) {
-				reservations.remove(i);
-				j++;
-			}
+		ArrayList<Reservation> cancelThese = new ArrayList<Reservation>();
+		
+		for(int i = 0; i < removeIndices.length; i++) {
+			cancelThese.add(reservations.get(removeIndices[i]));
+		}
+		
+		for(Reservation r : cancelThese) {
+			reservations.remove(r);
 		}
 	}
+	
 	/**
 	 * Calculates the total amount owed by iterating thru the reservations arrayList to check for room type and charging by type
 	 * @return the total balance
