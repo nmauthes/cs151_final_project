@@ -62,7 +62,12 @@ public class ManagerView extends JFrame {
 		calendarInfoPanel = new JPanel(new BorderLayout());
 		
 		calendarInfoArea = new JTextArea(TEXT_AREA_WIDTH, TEXT_AREA_HEIGHT);
-		saveButton = new JButton("Save all"); // TODO add functionality
+		saveButton = new JButton("Save all"); // SAVES MODEL'S DATA USING SERIALIZATION
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.save();
+			}
+		});
 		calendarInfoPanel.add(calendarInfoArea, BorderLayout.CENTER);
 		calendarInfoPanel.add(saveButton, BorderLayout.SOUTH);
 		calendarPanel.add(calendarInfoPanel, BorderLayout.EAST);
