@@ -118,9 +118,25 @@ public class GuestView extends JFrame {
 						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
 						activeAccount.addReservation(r);
 						updateViewCancelModel();
-						SimpleReceipt simpleReceipt = new SimpleReceipt();
-						ComprehensiveReceipt compReceipt = new ComprehensiveReceipt();
-						JOptionPane.showMessageDialog(GuestView.this, simpleReceipt.showReceipt(activeAccount) + "\n" + compReceipt.showReceipt(activeAccount), "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+						String[] choices = { "Simple Receipt", "Comprehensive Receipt" };
+						String input = (String) JOptionPane.showInputDialog(null, "Choose a Receipt Type",
+						        "Receipt Selection", JOptionPane.QUESTION_MESSAGE, null, // Use
+						                                                                        // default
+						                                                                        // icon
+						        choices, // Array of choices
+						        choices[1]); // Initial choice
+						Receipt receipt;
+						if (input.equals("Simple Receipt"))
+						{
+							receipt = new SimpleReceipt();
+							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+						}
+						if (input.equals("Comprehensive Receipt"))
+						{
+							receipt = new ComprehensiveReceipt();
+							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+						}
+						
 					}
 					catch(Exception ex) {
 						JOptionPane.showMessageDialog(GuestView.this, "Reservation error", "An error occurred", JOptionPane.ERROR_MESSAGE);
