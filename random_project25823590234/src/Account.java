@@ -94,11 +94,11 @@ public class Account implements java.io.Serializable {
 		{
 			if (reservation.getRoomType() == "L") // Checks if the room type is of type Luxury
 			{
-				totalBalance =+ 200;
+				totalBalance += 200;
 			}
 			if (reservation.getRoomType() == "E") // Checks if the room type is of type Economic
 			{
-				totalBalance =+ 80;
+				totalBalance += 80;
 			}
 			
 		}
