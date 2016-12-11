@@ -65,17 +65,24 @@ public class Account implements java.io.Serializable {
 		reservations.remove(r);
 	}
 	
-	//TODO comment this
+	/**
+	 * Removes reservations from list of reservations at indexes in removeIndices
+	 * 
+	 * @param int[] removeIndices Holds indices to remove from
+	 */
 	public void removeReservations(int[] removeIndices) {
-		int j = 0;
 		
-		for(int i = 0; i < reservations.size(); i++) {
-			if( i == j) {
-				reservations.remove(i);
-				j++;
-			}
+		ArrayList<Reservation> cancelThese = new ArrayList<Reservation>();
+		
+		for(int i = 0; i < removeIndices.length; i++) {
+			cancelThese.add(reservations.get(removeIndices[i]));
+		}
+		
+		for(Reservation r : cancelThese) {
+			reservations.remove(r);
 		}
 	}
+	
 	/**
 	 * Calculates the total amount owed by iterating thru the reservations arrayList to check for room type and charging by type
 	 * @return the total balance
@@ -100,13 +107,5 @@ public class Account implements java.io.Serializable {
 	
 	public String toString() {
 		return "| Name: " + name + " | ID: " + id + " |";
-	}
-	
-	//for testing purposes
-	public void printReservations() {
-		for(Reservation r : reservations) {
-			System.out.println(r);
-		}
-	}
-	
+	}	
 }
