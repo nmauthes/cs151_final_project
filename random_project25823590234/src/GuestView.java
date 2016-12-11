@@ -16,8 +16,8 @@ import java.util.List;
  * and provides controllers for making, viewing and cancelling guest reservations.
  */
 public class GuestView extends JFrame {
-	private final int WIDTH = 800;
-	private final int HEIGHT = 550;
+	private final int WIDTH = 600;
+	private final int HEIGHT = 450;
 	private final int TEXT_AREA_WIDTH = 20;
 	private final int TEXT_AREA_HEIGHT = 30;
 	private final int ROOMS_NUMBER_OF_ROWS = 5;
@@ -111,43 +111,55 @@ public class GuestView extends JFrame {
 		
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int newRoomNumber = Integer.parseInt(roomNumberField.getText());
-				if(!currentlyOccupiedRooms[newRoomNumber]) {
-					String roomType = (newRoomNumber > ReservationSystem.NUMBER_OF_ROOMS / 2) ? "E" : "L";
-					try {
-						Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
-						activeAccount.addReservation(r);
-						model.changeMade();
-						
-						updateViewCancelModel();
-						String[] choices = { "Simple Receipt", "Comprehensive Receipt" };
-						String input = (String) JOptionPane.showInputDialog(null, "Choose a Receipt Type",
-						        "Receipt Selection", JOptionPane.QUESTION_MESSAGE, null, // Use
-						                                                                        // default
-						                                                                        // icon
-						        choices, // Array of choices
-						        choices[1]); // Initial choice
-						Receipt receipt;
-						// User decides which Receipt they would like and it will print the corresponding choice
-						if (input.equals("Simple Receipt"))
-						{
-							receipt = new SimpleReceipt();
-							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+				int newRoomNumber;
+				try {
+					newRoomNumber = Integer.parseInt(roomNumberField.getText());
+					if(!currentlyOccupiedRooms[newRoomNumber]) {
+						String roomType = (newRoomNumber > ReservationSystem.NUMBER_OF_ROOMS / 2) ? "E" : "L";
+						try {
+							Reservation r = new Reservation(currentCheckInDate, currentCheckOutDate, roomType, newRoomNumber);
+							activeAccount.addReservation(r);
+							model.changeMade();
+							
+							updateViewCancelModel();
+							String[] choices = { "Simple Receipt", "Comprehensive Receipt" };
+							String input = (String) JOptionPane.showInputDialog(null, "Choose a Receipt Type",
+							        "Receipt Selection", JOptionPane.QUESTION_MESSAGE, null, // Use
+							                                                                        // default
+							                                                                        // icon
+							        choices, // Array of choices
+							        choices[1]); // Initial choice
+							Receipt receipt;
+							// User decides which Receipt they would like and it will print the corresponding choice
+							if (input.equals("Simple Receipt"))
+							{
+								receipt = new SimpleReceipt();
+								JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+							}
+							else
+							//if (input.equals("Comprehensive Receipt"))
+							{
+								receipt = new ComprehensiveReceipt();
+								JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+							}
+							
 						}
-						else
-						//if (input.equals("Comprehensive Receipt"))
-						{
-							receipt = new ComprehensiveReceipt();
-							JOptionPane.showMessageDialog(GuestView.this, receipt.showReceipt(activeAccount) + "\n", "Reservation successful", JOptionPane.PLAIN_MESSAGE); // FIX BALANCE
+						catch(Exception ex) {
+							JOptionPane.showMessageDialog(GuestView.this, "An error occurred", "Reservation error", JOptionPane.ERROR_MESSAGE);
 						}
-						
-					}
-					catch(Exception ex) {
-						JOptionPane.showMessageDialog(GuestView.this, "Reservation error", "An error occurred", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+				catch(NullPointerException n) {
+					JOptionPane.showMessageDialog(GuestView.this, "Please make a reservation first", "You have not made a reservation", JOptionPane.WARNING_MESSAGE);
+				}
+				catch(NumberFormatException nf) {
+					JOptionPane.showMessageDialog(GuestView.this, "Please enter a valid number", "Invalid room number", JOptionPane.WARNING_MESSAGE);
+				}
+				
+
 				availableRoomsArea.setText("");
 				roomNumberField.setText("");
+				currentlyOccupiedRooms = null;
 			}
 		});
 		
@@ -190,6 +202,7 @@ public class GuestView extends JFrame {
 				int[] cancelIndices = viewReservationsList.getSelectedIndices();				
 				activeAccount.removeReservations(cancelIndices);
 				updateViewCancelModel();
+				model.changeMade();
 			}
 		});
 		

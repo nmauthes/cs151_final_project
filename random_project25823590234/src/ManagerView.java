@@ -49,6 +49,7 @@ public class ManagerView extends JFrame {
 				highlightSelectedCell();
 				updateLabels();
 				updateCalendar();
+				updateRoomsView();
 			}
 		};
 		model.addListener(cl);
@@ -121,14 +122,7 @@ public class ManagerView extends JFrame {
 		
 		ListSelectionListener l = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				ArrayList<Reservation> reservations = model.getReservationsByRoomNumber(roomsList.getSelectedIndex());
-				
-				String list = "";
-				for(Reservation r : reservations) {
-					list += r.toString() + "\n";
-				}
-				
-				roomsInfoArea.setText(list);
+				updateRoomsView();
 			}
 		};
 		
@@ -144,6 +138,17 @@ public class ManagerView extends JFrame {
 		
 		roomsPanel.add(roomNumbersLabel, BorderLayout.NORTH);
 		roomsPanel.add(roomsScrollPane, BorderLayout.WEST);
+	}
+	
+	private void updateRoomsView() {
+		ArrayList<Reservation> reservations = model.getReservationsByRoomNumber(roomsList.getSelectedIndex());
+		
+		String list = "";
+		for(Reservation r : reservations) {
+			list += r.toString() + "\n";
+		}
+		
+		roomsInfoArea.setText(list);
 	}
 	
 	private void buildCalendarPanel() {
