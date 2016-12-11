@@ -32,7 +32,7 @@ public class Account implements java.io.Serializable {
 		String roomsList = "";
 		for (int i = 0; i < this.reservations.size();i++)
 		{
-			roomsList = roomsList + reservations.get(i).getRealRoomNumber() + ", ";
+			roomsList += reservations.get(i).getRealRoomNumber() + "\n";
 		}
 		
 		return roomsList;

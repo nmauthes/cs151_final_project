@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * @author Brogrammers
  * 
@@ -9,7 +9,13 @@ public class ComprehensiveReceipt implements Receipt
 {
 	public String showReceipt(Account account)
 	{
+			ArrayList<Reservation> reservations = account.getReservations();
+			String list = "";
 			
-			return "Comprehensive Receipt: \n User: " + account.getName() + ", ID: " + account.getID() + ", Reservations: " + account.getReservations() + ", Total Amount Due: $" + account.getTotalBalance();
+			for(Reservation r : reservations) {
+				list += r + "\n";
+			}
+			
+			return "Comprehensive Receipt: \n\nUser: " + account.getName() + "\nID: " + account.getID() + "\nReservations:\n" + list + "\nTotal Amount Due: $" + account.getTotalBalance();
 	}
 }
