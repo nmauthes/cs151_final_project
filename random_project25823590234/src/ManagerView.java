@@ -81,7 +81,16 @@ public class ManagerView extends JFrame {
 		loadButton = new JButton("Load");
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 					model.load();
+					JOptionPane.showMessageDialog(ManagerView.this, "Loading successful", "Reservations loaded", JOptionPane.PLAIN_MESSAGE);
+				}
+				catch(ClassNotFoundException i) {
+					JOptionPane.showMessageDialog(ManagerView.this, "Loading failed", "File not found", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(ManagerView.this, "Loading failed", "There was an error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		calendarInfoPanel.add(loadButton, BorderLayout.NORTH);

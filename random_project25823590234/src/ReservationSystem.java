@@ -313,23 +313,14 @@ public class ReservationSystem implements java.io.Serializable { // model
 	 * load method will deserialize the file reservation.ser and will load the data into the Model's arraylist of accounts
 	 * 
 	 */
-	public void load()
+	public void load() throws IOException, ClassNotFoundException
 	{
-		try {
 	         FileInputStream fileIn = new FileInputStream("reservation.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	          this.accounts = (ArrayList<Account>) in.readObject();
 	         in.close();
 	         fileIn.close();
 	         System.out.printf("Data has been loaded. \n");
-	      }catch(IOException i) {
-	         i.printStackTrace();
-	         return;
-	      }catch(ClassNotFoundException c) {
-	         System.out.println("Reservation data not found.");
-	         c.printStackTrace();
-	         return;
-	      }
 	}
 	/**
 	 * The save method will serialize the data of the Model (the data is stored in the arrayList accounts)
